@@ -6,7 +6,7 @@ import Card from '../card/card';
 
 SwiperCore.use([Navigation]);
 
-export default function Category({ category }) {
+export default function Category({ category, title, desc }) {
 	const navPrevRef = useRef(null);
 	const navNextRef = useRef(null);
 
@@ -14,12 +14,8 @@ export default function Category({ category }) {
 		<div className='category'>
 			<div className='container'>
 				<div className='category__head'>
-					<h2 className='category__title'>Men's Latest</h2>
-					<p className='category__desc'>
-						Details to details is what makes Hexashop different from the other themes. Lorem ipsum dolor sit amet
-						consectetur adipisicing elit. Soluta, harum veritatis molestiae et aliquam libero est. Nemo illo vero
-						voluptas, facere voluptates earum ut sint et accusamus consequatur perferendis iusto.
-					</p>
+					<h2 className='category__title'>{title}</h2>
+					<p className='category__desc'>{desc}</p>
 				</div>
 
 				<div className='category-carousel'>

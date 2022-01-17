@@ -25,7 +25,22 @@ export default function Home() {
 	return (
 		<div className='home'>
 			<Hero />
-			<Category category={category} />
+			<Category
+				category={category}
+				title="Men's Latest"
+				desc='Details to details is what makes Hexashop different from the other themes.'
+			/>
+
+			<Category
+				category={category}
+				title="Women's Latest"
+				desc='Details to details is what makes Hexashop different from the other themes.'
+			/>
+			<Category
+				category={category}
+				title="Kid's Latest"
+				desc='Details to details is what makes Hexashop different from the other themes.'
+			/>
 		</div>
 	);
 }
