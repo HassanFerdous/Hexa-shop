@@ -1,5 +1,6 @@
 import Category from '../components/category/category';
 import Hero from '../components/hero/hero';
+import Explore from '../components/sections/explore';
 
 export default function Home() {
 	const category = [
@@ -41,6 +42,7 @@ export default function Home() {
 				title="Kid's Latest"
 				desc='Details to details is what makes Hexashop different from the other themes.'
 			/>
+			<Explore />
 		</div>
 	);
 }
