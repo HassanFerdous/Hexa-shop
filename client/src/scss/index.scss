@@ -1,0 +1,24 @@
+//variable
+@import './global/variable',
+'./global/mixin',
+'./global/reset',
+'./global/base';
+
+
+//swiper
+@import '../../node_modules/swiper/swiper.scss';
+
+//pages
+
+
+//header
+@import './header/header';
+
+//sections
+@import './sections/category';
+
+
+//components
+@import './component/_explore-hero',
+'./component/button',
+'./component/_card';

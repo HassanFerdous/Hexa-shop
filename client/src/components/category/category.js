@@ -1,0 +1,64 @@
+// Import Swiper React components
+import { useRef } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import SwiperCore, { Navigation } from 'swiper';
+import Card from '../card/card';
+
+SwiperCore.use([Navigation]);
+
+export default function Category({ category }) {
+	const navPrevRef = useRef(null);
+	const navNextRef = useRef(null);
+
+	return (
+		<div className='category'>
+			<div className='container'>
+				<div className='category__head'>
+					<h2 className='category__title'>Men's Latest</h2>
+					<p className='category__desc'>
+						Details to details is what makes Hexashop different from the other themes. Lorem ipsum dolor sit amet
+						consectetur adipisicing elit. Soluta, harum veritatis molestiae et aliquam libero est. Nemo illo vero
+						voluptas, facere voluptates earum ut sint et accusamus consequatur perferendis iusto.
+					</p>
+				</div>
+
+				<div className='category-carousel'>
+					<div className='category-nav'>
+						<button ref={navPrevRef} className='category-nav__prev'>
+							<img src='/assets/svgs/angle-left.svg' alt='' />
+						</button>
+						<button ref={navNextRef} className='category-nav__next'>
+							<img src='/assets/svgs/angle-right.svg' alt='' />
+						</button>
+					</div>
+					<Swiper
+						spaceBetween={20}
+						slidesPerView={1.3}
+						loop={true}
+						navigation={{
+							prevEl: navPrevRef.current,
+							nextEl: navNextRef.current,
+						}}
+						onBeforeInit={(swiper) => {
+							swiper.params.navigation.prevEl = navPrevRef.current;
+							swiper.params.navigation.nextEl = navNextRef.current;
+						}}
+						breakpoints={{
+							576: {
+								slidesPerView: 2,
+							},
+							992: {
+								slidesPerView: 3,
+							},
+						}}>
+						{category.map((categoryItem, idx) => (
+							<SwiperSlide key={idx}>
+								<Card product={categoryItem} />
+							</SwiperSlide>
+						))}
+					</Swiper>
+				</div>
+			</div>
+		</div>
+	);
+}

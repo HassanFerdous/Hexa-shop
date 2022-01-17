@@ -1,0 +1,24 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px;
+}
+
+.container {
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 15px;
+
+    &-fluid {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+}
+
+.app-content {
+    padding-top: 78px;
+
+    @include media-breakpoint-up(lg) {
+        padding-top: 100px;
+    }
+}

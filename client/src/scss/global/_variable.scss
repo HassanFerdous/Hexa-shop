@@ -1,0 +1,15 @@
+///colors
+$black: #000;
+$white: #ffff;
+$gray-100: #ccc;
+$gray-300: #eee;
+
+
+$media-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px,
+  xxl: 1400px
+) !default;
