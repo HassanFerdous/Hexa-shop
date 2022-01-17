@@ -26,7 +26,7 @@ export default function Navbar({ isNavOpen }) {
 				</li>
 				<li className='navbar__item'>
 					<Link to='#' className='navbar__link'>
-						Pages
+						Shop
 					</Link>
 				</li>
 				<li className='navbar__item'>
