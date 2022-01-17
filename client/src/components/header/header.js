@@ -7,6 +7,7 @@ const Header = () => {
 	const handleNavOpen = (e) => {
 		e.preventDefault();
 		setNavOpen(!navOpen);
+		document.body.classList.toggle('nav-open');
 	};
 
 	return (
