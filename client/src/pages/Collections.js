@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import Banner from '../components/banner/banner';
 import Card from '../components/card/card';
 
-export default function Products() {
+export default function Collections() {
 	const collections = [
 		{
 			name: 'Classic Spring',
@@ -37,8 +37,8 @@ export default function Products() {
 						<p className='collection__desc'>Check out all of our products.</p>
 					</div>
 					<div className='collection__grid'>
-						{collections.map((item) => (
-							<Card product={item} />
+						{collections.map((item, idx) => (
+							<Card key={idx} product={item} />
 						))}
 					</div>
 					<div className='collection-pagination'>

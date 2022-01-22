@@ -1,30 +1,40 @@
 const mongoose = require('mongoose');
 
-const productSchema = mongoose.Schema({
-	title: {
-		type: String,
-		require: true,
+const productSchema = mongoose.Schema(
+	{
+		title: {
+			type: String,
+			require: true,
+		},
+		price: {
+			type: Number,
+			require: true,
+		},
+		desc: {
+			type: String,
+			require: true,
+		},
+		img: {
+			type: String,
+		},
+		sizes: {
+			type: Array,
+		},
+		tags: {
+			type: [],
+		},
+		categories: {
+			type: Array,
+		},
+		inStock: {
+			type: Boolean,
+			default: true,
+		},
 	},
-	price: {
-		type: String,
-		require: true,
-	},
-	desc: {
-		type: String,
-		require: true,
-	},
-	img: {
-		type: String,
-	},
-	tags: {
-		type: [],
-	},
-	status: {
-		type: String,
-		enum: ['active', 'sold-out'],
-		default: 'active',
-	},
-});
+	{
+		timeStamp: true,
+	}
+);
 // {
 //     "title": "Men's t-short",
 //     "price": "150",

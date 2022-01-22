@@ -22,3 +22,25 @@ body {
         padding-top: 100px;
     }
 }
+
+.d-flex {
+    display: flex;
+}
+
+.align-items-center {
+    align-items: center
+}
+
+.justify-content-center {
+    justify-content: center;
+}
+
+.justify-content-between {
+    justify-content: space-between;
+}
+
+.flex-center {
+    @extend .d-flex;
+    @extend .align-items-center;
+    @extend .justify-content-center;
+}
