@@ -39,7 +39,9 @@ const productSchema = mongoose.Schema(
 //     "title": "Men's t-short",
 //     "price": "150",
 //     "desc": "lorem ipsum dollar sit",
-//     "status": "active"
+// 	"cat": "men",
+// 	"tags": "lorem, ipsum",
+//     "inStock": "true"
 // }
 const Product = mongoose.model('Product', productSchema);
 module.exports = Product;
