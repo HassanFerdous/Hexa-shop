@@ -57,6 +57,10 @@
             @include media-breakpoint-down(lg) {
                 min-height: 250px;
             }
+
+            img {
+                width: 100%;
+            }
         }
     }
 

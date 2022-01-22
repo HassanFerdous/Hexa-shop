@@ -12,7 +12,7 @@ export default function App() {
 				<Header />
 				<Routes>
 					<Route path='/' element={<Home />} />
-					<Route path='/products/:category' element={<Collections />} />
+					<Route path='/products/' element={<Collections />} />
 					<Route path='/product/:id' element={<Product />} />
 				</Routes>
 				<Footer />

@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import Explore from '../components/sections/explore';
 
 export default function Product() {
@@ -35,6 +34,13 @@ export default function Product() {
 							<button className='counter-btn counter-btn--minus'>+</button>
 						</div>
 						<button className='pdp__atc'>Add to bag</button>
+						<ul className='pdp__list'>
+							<li>amet consectetur adipisicing elit. Placeat, sunt.</li>
+							<li>Lorem ipsum dolor sit, adipisicing elit. Placeat, sunt.</li>
+							<li>sit, amet consectetur adipisicing elit. Placeat, sunt.</li>
+							<li>dolor sit, amet consectetur adipisicing elit. Placeat, sunt.</li>
+							<li>Lorem ipsum dolor adipisicing elit. Placeat, sunt.</li>
+						</ul>
 					</div>
 				</div>
 			</section>

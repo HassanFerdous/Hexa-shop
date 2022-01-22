@@ -1,6 +1,15 @@
 .banner {
     position: relative;
     text-align: center;
+    min-height: 350px;
+
+    &__bg {
+        height: 100%;
+
+        img {
+            height: 100%;
+        }
+    }
 
     &__content {
         position: absolute;
