@@ -26,7 +26,7 @@ async function addProduct(req, res, next) {
 async function updateProduct(req, res, next) {
 	let id = req.params.id;
 	let data = req.body;
-	console.log(data);
+
 	try {
 		let updatedProduct = await Product.findOneAndUpdate({ _id: id }, { $set: data });
 
@@ -34,7 +34,7 @@ async function updateProduct(req, res, next) {
 			msg: 'product updated successfully',
 		});
 	} catch (error) {
-		res.status('5000').json({
+		res.status('500').json({
 			error: {
 				msg: error.message,
 			},

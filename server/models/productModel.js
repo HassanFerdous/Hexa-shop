@@ -17,6 +17,10 @@ const productSchema = mongoose.Schema(
 		img: {
 			type: String,
 		},
+		status: {
+			type: Boolean,
+			default: true,
+		},
 		sizes: {
 			type: Array,
 		},
@@ -27,8 +31,8 @@ const productSchema = mongoose.Schema(
 			type: Array,
 		},
 		inStock: {
-			type: Boolean,
-			default: true,
+			type: Number,
+			default: 1,
 		},
 	},
 	{
@@ -40,8 +44,9 @@ const productSchema = mongoose.Schema(
 //     "price": "150",
 //     "desc": "lorem ipsum dollar sit",
 // 	"cat": "men",
-// 	"tags": "lorem, ipsum",
-//     "inStock": "true"
+// 	"sizes": [40, 42, 45]
+// 	"tags": ["lorem, ipsum"],
+//     "inStock": "120"
 // }
 const Product = mongoose.model('Product', productSchema);
 module.exports = Product;
