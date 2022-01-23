@@ -4,6 +4,7 @@ import Header from './components/header/header';
 import Home from './pages/Home';
 import Collections from './pages/Collections';
 import Product from './pages/Product';
+import AdminProducts from './admin/product/products';
 
 export default function App() {
 	return (
@@ -14,6 +15,8 @@ export default function App() {
 					<Route path='/' element={<Home />} />
 					<Route path='/products/' element={<Collections />} />
 					<Route path='/product/:id' element={<Product />} />
+
+					<Route path='/admin/products' element={<AdminProducts />} />
 				</Routes>
 				<Footer />
 			</div>

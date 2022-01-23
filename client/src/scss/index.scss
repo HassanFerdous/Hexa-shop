@@ -25,4 +25,9 @@
 @import './component/hero',
 './component/button',
 './component/card',
-'./component/banner';
+'./component/banner',
+'./component/form',
+'./component/modal';
+
+//admin
+@import './admin/admin';
