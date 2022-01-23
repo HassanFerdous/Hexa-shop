@@ -1,0 +1,39 @@
+.form {
+    &-label {
+        display: block;
+        font-size: 14px;
+        margin-bottom: 3px;
+        text-transform: capitalize;
+    }
+
+    &-control {
+        width: 100%;
+        border: 1px solid $gray-100;
+        border-radius: 5px;
+        background-color: transparent;
+        height: 38px;
+        padding: 10px;
+
+        &:focus {
+            outline: 0;
+        }
+
+        &--textarea {
+            min-height: 100px;
+        }
+    }
+
+    &-row {
+        &:not(:last-child) {
+            margin-bottom: 20px;
+        }
+    }
+
+    &-submit {
+        background-color: green;
+        border: 0;
+        color: $white;
+        padding: 10px 20px;
+        border-radius: 5px;
+    }
+}
