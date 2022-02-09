@@ -25,13 +25,17 @@ export default function AdminProducts() {
 		}
 	};
 
-	useEffect(() => {
+	function getProducts() {
 		fetch('http://localhost:5000/products')
 			.then((res) => res.json())
 			.then((data) => setProducts(data))
 			.catch((err) => {
 				console.log('failed to fetch');
 			});
+	}
+
+	useEffect(() => {
+		getProducts();
 	}, []);
 
 	return (
