@@ -1,15 +1,28 @@
+import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import EditProduct from './updateModal';
+import AddProductModal from './addProduct';
+import EditProduct from './editProduct';
 
 export default function AdminProducts() {
 	const [isOpen, setIsOpen] = useState(false);
 	const [products, setProducts] = useState(null);
 	const [product, setProduct] = useState(null);
+	const [newProductModal, setNewProductModal] = useState(false);
+
 	const openModal = (id) => {
 		setIsOpen(true);
 		let currentProduct = products.products.find((product) => product._id === id);
 		setProduct(currentProduct);
+	};
+
+	const deleteProduct = async (id) => {
+		try {
+			await axios.delete(`http://localhost:5000/products/${id}`);
+			window.location.reload();
+		} catch (error) {
+			console.log('failed to delete product');
+		}
 	};
 
 	useEffect(() => {
@@ -42,7 +55,7 @@ export default function AdminProducts() {
 						</Link>
 					</li>
 					<li className='dashboard-sidebar__item'>
-						<Link className='dashboard-sidebar__link' to='#'>
+						<Link className='dashboard-sidebar__link' to='#' onClick={() => setNewProductModal(true)}>
 							Add product
 						</Link>
 					</li>
@@ -89,7 +102,7 @@ export default function AdminProducts() {
 												<span>{product.inStock}</span>
 											</div>
 											<div className='table-data product__status'>
-												<span>active</span>
+												<span>{product.status ? 'active' : 'In-active'}</span>
 											</div>
 											<div className='table-data product__price'>
 												<span>${product.price}</span>
@@ -102,7 +115,10 @@ export default function AdminProducts() {
 														to='#'>
 														Edit
 													</Link>
-													<Link className='product-action__remove' to='#'>
+													<Link
+														className='product-action__remove'
+														to='#'
+														onClick={() => deleteProduct(product._id)}>
 														Delete
 													</Link>
 												</div>
@@ -111,40 +127,11 @@ export default function AdminProducts() {
 									);
 							  })
 							: null}
-
-						{/* <div className='table-row product'>
-							<div className='table-data product__id'>
-								<input type='checkbox' />
-								<span>5</span>
-							</div>
-							<div className='table-data product__thumb'>
-								<img className='product__img' src='/assets/images/men-01.jpg' alt='' />
-								<p className='product__name'>Air Force 1 X</p>
-							</div>
-							<div className='table-data product__stock'>
-								<span>123</span>
-							</div>
-							<div className='table-data product__status'>
-								<span>active</span>
-							</div>
-							<div className='table-data product__price'>
-								<span>$120.00</span>
-							</div>
-							<div className='table-data product-action'>
-								<div className='product-action__group'>
-									<Link className='product-action__edit' onClick={openModal} to='#'>
-										Edit
-									</Link>
-									<Link className='product-action__remove' to='#'>
-										Delete
-									</Link>
-								</div>
-							</div>
-						</div> */}
 					</div>
 				</div>
 			</div>
 			{isOpen ? <EditProduct isOpen={setIsOpen} product={product} /> : null}
+			{newProductModal ? <AddProductModal setNewProductModal={setNewProductModal} /> : null}
 		</div>
 	);
 }

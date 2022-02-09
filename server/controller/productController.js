@@ -7,14 +7,17 @@ async function getProducts(req, res, next) {
 
 //add
 async function addProduct(req, res, next) {
-	const newProduct = Product(req.body);
+	let productData = { ...req.body, img: req.file.filename };
+	// console.log(productData);
+	const newProduct = new Product(productData);
 	try {
 		const response = await newProduct.save();
 		res.status(200).json({
 			msg: 'product added successfully',
 		});
 	} catch (error) {
-		res.status('5000').json({
+		console.log(error);
+		res.status('500').json({
 			error: {
 				msg: error.message,
 			},

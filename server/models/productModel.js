@@ -4,15 +4,15 @@ const productSchema = mongoose.Schema(
 	{
 		title: {
 			type: String,
-			require: true,
+			required: true,
 		},
 		price: {
 			type: Number,
-			require: true,
+			required: true,
 		},
 		desc: {
 			type: String,
-			require: true,
+			required: true,
 		},
 		img: {
 			type: String,
@@ -21,15 +21,7 @@ const productSchema = mongoose.Schema(
 			type: Boolean,
 			default: true,
 		},
-		sizes: {
-			type: Array,
-		},
-		tags: {
-			type: [],
-		},
-		categories: {
-			type: Array,
-		},
+
 		inStock: {
 			type: Number,
 			default: 1,

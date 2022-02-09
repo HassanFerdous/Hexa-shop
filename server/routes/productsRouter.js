@@ -1,5 +1,6 @@
 const express = require('express');
 const { getProducts, addProduct, deleteProduct, updateProduct } = require('../controller/productController');
+const { upload } = require('../middleware/singleUpload');
 
 const router = express.Router();
 
@@ -7,7 +8,7 @@ const router = express.Router();
 router.get('/', getProducts);
 
 //add products
-router.post('/', addProduct);
+router.post('/', upload.single('img'), addProduct);
 
 //update products
 router.put('/:id', updateProduct);
