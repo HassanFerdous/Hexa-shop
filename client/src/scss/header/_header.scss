@@ -28,6 +28,14 @@ body.nav-open {
             padding-bottom: 20px;
         }
     }
+
+    &__left {
+        img {
+            @include media-breakpoint-down(lg) {
+                width: 150px;
+            }
+        }
+    }
 }
 
 .navbar {

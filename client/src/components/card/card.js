@@ -1,4 +1,7 @@
-export default function Card({ product }) {
+import { connect } from 'react-redux';
+import { addItemToCart } from '../../redux/reducer/cart/cartAction';
+
+function Card({ product, cartItems, addItem }) {
 	const { title, img, price, rating = 5 } = product;
 	return (
 		<div className='card'>
@@ -13,7 +16,12 @@ export default function Card({ product }) {
 					<button className='card-btn'>
 						<img src='/assets/svgs/star.svg' alt='star' />
 					</button>
-					<button className='card-btn' onClick={() => console.log(product._id)}>
+					<button
+						className='card-btn'
+						onClick={() => {
+							addItem(product);
+							console.log(cartItems);
+						}}>
 						<img src='/assets/svgs/shopping-bag.svg' alt='bag' />
 					</button>
 				</div>
@@ -33,3 +41,13 @@ export default function Card({ product }) {
 		</div>
 	);
 }
+
+const mapStateToProps = (state) => ({
+	cartItems: state.cart.cartItems,
+});
+
+let mapDispatchToProps = (dispatch) => ({
+	addItem: (item) => dispatch(addItemToCart(item)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Card);
