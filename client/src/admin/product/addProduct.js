@@ -1,7 +1,7 @@
 import { createPortal } from 'react-dom';
 import { useState } from 'react';
 
-export default function AddProductModal({ setNewProductModal }) {
+export default function AddProductModal({ setNewProductModal, updateProduct }) {
 	const [formValue, setFormFormValue] = useState({
 		title: '',
 		inStock: '',
@@ -35,9 +35,8 @@ export default function AddProductModal({ setNewProductModal }) {
 			.then((res) => res.json())
 			.then((data) => console.log(data))
 			.catch((err) => console.log(err.message));
-
+		updateProduct();
 		closeModal();
-		window.location.reload();
 	};
 
 	return createPortal(

@@ -1,7 +1,7 @@
 import { createPortal } from 'react-dom';
 import { useState } from 'react';
 
-export default function EditProduct({ isOpen, product }) {
+export default function EditProduct({ isOpen, product, updateProduct }) {
 	const [formData, setFormData] = useState({
 		title: product.title,
 		inStock: product.inStock,
@@ -21,7 +21,7 @@ export default function EditProduct({ isOpen, product }) {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			let res = await fetch(`http://localhost:5000/products/${product._id}`, {
+			await fetch(`http://localhost:5000/products/${product._id}`, {
 				method: 'PUT',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(formData),
@@ -31,6 +31,7 @@ export default function EditProduct({ isOpen, product }) {
 		} catch (error) {
 			console.log(error.message);
 		}
+		updateProduct();
 	};
 
 	return createPortal(
