@@ -1,11 +1,15 @@
-const INITIAL_STATE = {
-	cartItems: [],
-};
+import { addCartItem, decrementQuantity, incrementQuantity } from '../../../utilities/utils';
 
-export default function cartReducer(state = INITIAL_STATE, action) {
+const CART_ITEMS = [];
+
+export default function cartReducer(state = CART_ITEMS, action) {
 	switch (action.type) {
-		case 'ADD_CARD_ITEM':
-			return { ...state, cartItems: [...state.cartItems, action.item] };
+		case 'ADD_CART_ITEM':
+			return (state = addCartItem(state, action.payload));
+		case 'INCREMENT_QUANTITY':
+			return (state = incrementQuantity(state, action.payload));
+		case 'DECREMENT_QUANTITY':
+			return (state = decrementQuantity(state, action.payload));
 		default:
 			return state;
 	}

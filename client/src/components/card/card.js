@@ -1,8 +1,13 @@
-import { connect } from 'react-redux';
-import { addItemToCart } from '../../redux/reducer/cart/cartAction';
+import { useDispatch, useSelector } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { cartActionCreator } from '../../redux/action';
 
-function Card({ product, cartItems, addItem }) {
+function Card({ product }) {
 	const { title, img, price, rating = 5 } = product;
+
+	const dispatch = useDispatch();
+	const { addItemToCart } = bindActionCreators(cartActionCreator, dispatch);
+	const cartItems = useSelector((state) => state.cart);
 	return (
 		<div className='card'>
 			<div className='card__thumb'>
@@ -19,8 +24,8 @@ function Card({ product, cartItems, addItem }) {
 					<button
 						className='card-btn'
 						onClick={() => {
-							addItem(product);
-							console.log(cartItems);
+							addItemToCart(product);
+							// console.log(cartItems);
 						}}>
 						<img src='/assets/svgs/shopping-bag.svg' alt='bag' />
 					</button>
@@ -37,17 +42,9 @@ function Card({ product, cartItems, addItem }) {
 						))}
 				</div>
 			</div>
-			<p className='card__price'>${price}</p>
+			<p className='card__price'>${price || 0}</p>
 		</div>
 	);
 }
 
-const mapStateToProps = (state) => ({
-	cartItems: state.cart.cartItems,
-});
-
-let mapDispatchToProps = (dispatch) => ({
-	addItem: (item) => dispatch(addItemToCart(item)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(Card);
+export default Card;

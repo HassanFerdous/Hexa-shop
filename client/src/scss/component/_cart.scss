@@ -10,7 +10,7 @@
     max-width: 500px;
     z-index: 1000;
     background-color: $white;
-    
+
     @include media-breakpoint-up(lg) {
         border-left: 1px solid $black;
     }
@@ -32,11 +32,14 @@
     }
 
     &-footer {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
         padding-top: 10px;
         border-top: 1px solid $black;
+
+        &__row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
     }
 
     &-item {
@@ -65,6 +68,10 @@
 
         &:first-child {
             margin-top: 0;
+        }
+
+        &:last-child {
+            border-bottom: 0;
         }
     }
 
@@ -114,6 +121,26 @@
 
         img {
             width: 14px;
+        }
+    }
+
+    &__checkout-btn {
+        display: block;
+        width: 100%;
+        background-color: $black;
+        color: $white;
+        height: 44px;
+        border: 1px solid $black;
+        font-weight: 400;
+        text-transform: uppercase;
+        text-align: center;
+        margin-top: 5px;
+        transition: .2s all;
+        cursor: pointer;
+
+        &:hover {
+            background-color: transparent;
+            color: $black;
         }
     }
 }

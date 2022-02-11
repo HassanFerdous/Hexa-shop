@@ -1,27 +1,39 @@
 import { createPortal } from 'react-dom';
-import { connect } from 'react-redux';
-const Cart = ({ cartItems, setIsCartOpen }) => {
+import { useSelector, useDispatch } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { cartActionCreator } from '../../redux/action';
+import { countTotalPrice } from '../../utilities/utils';
+const Cart = ({ setIsCartOpen }) => {
+	const cartItems = useSelector((state) => state.cart);
+	const dispatch = useDispatch();
+	const { incrementQuantity, decrementQuantity } = bindActionCreators(cartActionCreator, dispatch);
+	const subTotal = countTotalPrice(cartItems);
 	return createPortal(
 		<div className='cart'>
 			<div className='cart-head'>
-				<p>Bag(9)</p>
+				<p>Bag({cartItems.length})</p>
 				<button className='cart__close' onClick={() => setIsCartOpen(false)}>
 					<img src='/assets/svgs/close.svg' alt='' />
 				</button>
 			</div>
 			<div className='cart-body'>
 				<div className='cart__items'>
-					{cartItems.map((item) => (
-						<div className='cart-item'>
+					{cartItems.map((item, idx) => (
+						<div className='cart-item' key={idx}>
 							<img src={`/assets/images/${item.img}`} alt='' className='cart-item__img' />
 							<div className='cart-item__info'>
 								<p className='cart-item__desc'>{item.title}</p>
 								<div className='cart-quantity'>
-									<button className='cart-quantity__plus'>
+									<button className='cart-quantity__plus' onClick={() => incrementQuantity(item._id)}>
 										<img src='/assets/svgs/plus.svg' alt='' />
 									</button>
-									<input type='number' className='cart-quantity__input' defaultValue={1} />
-									<button className='cart-quantity__minus'>
+									<input
+										type='number'
+										className='cart-quantity__input'
+										value={item.quantity ? item.quantity : 1}
+										readOnly
+									/>
+									<button className='cart-quantity__minus' onClick={() => decrementQuantity(item._id)}>
 										<img src='/assets/svgs/minus.svg' alt='' />
 									</button>
 								</div>
@@ -32,16 +44,15 @@ const Cart = ({ cartItems, setIsCartOpen }) => {
 				</div>
 			</div>
 			<div className='cart-footer'>
-				<p>Total price</p>
-				<p>$99</p>
+				<div className='cart-footer__row'>
+					<p>Total price</p>
+					<p>${subTotal || 0}</p>
+				</div>
+				<button className='cart__checkout-btn'>Checkout</button>
 			</div>
 		</div>,
 		document.body
 	);
 };
 
-const mapStateToProps = (state) => ({
-	cartItems: state.cart.cartItems,
-});
-
-export default connect(mapStateToProps)(Cart);
+export default Cart;
