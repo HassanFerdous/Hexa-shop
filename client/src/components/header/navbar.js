@@ -2,10 +2,21 @@ import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Cart from '../cart/cart';
+import LoginModal from '../login/loginModal';
 
 export default function Navbar({ isNavOpen }) {
-	const [isCartOpen, setIsCartOpen] = useState(false);
 	const cartItems = useSelector((state) => state.cart);
+	const [isCartOpen, setIsCartOpen] = useState(false);
+	const [showAccModal, setShowAccModal] = useState(false);
+
+	const openAccountModal = () => {
+		setShowAccModal(true);
+	};
+
+	const hideModal = () => {
+		setShowAccModal(false);
+	};
+
 	return (
 		<nav className={`navbar ${isNavOpen ? 'navbar--open' : ''}`}>
 			<ul className='navbar__list'>
@@ -25,7 +36,7 @@ export default function Navbar({ isNavOpen }) {
 					</Link>
 				</li>
 				<li className='navbar__item'>
-					<Link to='#' className='navbar__link'>
+					<Link to='#' className='navbar__link' onClick={openAccountModal}>
 						Account
 					</Link>
 				</li>
@@ -33,6 +44,7 @@ export default function Navbar({ isNavOpen }) {
 					<Link to='#' className='navbar__link'>
 						Contact
 					</Link>
+					{showAccModal ? <LoginModal hideModal={hideModal} /> : null}
 				</li>
 				<li className='navbar__item'>
 					<Link to='#' className='cart-btn' onClick={() => setIsCartOpen(!isCartOpen)}>

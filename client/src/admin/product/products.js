@@ -38,7 +38,7 @@ export default function AdminProducts() {
 
 	useEffect(() => {
 		dispatchAction();
-	});
+	}, []);
 
 	return (
 		<div className='dashboard'>

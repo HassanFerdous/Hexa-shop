@@ -13,7 +13,7 @@ export default function Collections() {
 
 	useEffect(() => {
 		getAllProducts('http://localhost:5000/products');
-	}, [getAllProducts]);
+	}, []);
 	return (
 		<>
 			<Banner

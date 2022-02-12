@@ -1,5 +1,5 @@
 // Import Swiper React components
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation } from 'swiper';
 import Card from '../card/card';

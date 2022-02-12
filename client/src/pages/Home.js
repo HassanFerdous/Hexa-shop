@@ -6,33 +6,13 @@ import { bindActionCreators } from 'redux';
 import { productActionCreator } from '../redux/action';
 import { useEffect } from 'react';
 export default function Home() {
-	// const category = [
-	// 	{
-	// 		name: 'Classic Spring',
-	// 		price: '$120.00',
-	// 		rating: 5,
-	// 		imgSrc: '/assets/images/men-01.jpg',
-	// 	},
-	// 	{
-	// 		name: 'Air Force 1 X',
-	// 		price: '$90.00',
-	// 		rating: 5,
-	// 		imgSrc: '/assets/images/men-02.jpg',
-	// 	},
-	// 	{
-	// 		name: 'Love Nana ‘20',
-	// 		price: '$150.00',
-	// 		rating: 5,
-	// 		imgSrc: '/assets/images/men-03.jpg',
-	// 	},
-	// ];
 	const category = useSelector((state) => state.products);
 	const dispatch = useDispatch();
 	const { getAllProducts } = bindActionCreators(productActionCreator, dispatch);
 
 	useEffect(() => {
 		getAllProducts('http://localhost:5000/products');
-	});
+	}, []);
 
 	return (
 		<div className='home'>
