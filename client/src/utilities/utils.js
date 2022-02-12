@@ -26,3 +26,14 @@ export const decrementQuantity = (cartItems, id) => {
 export const countTotalPrice = (cartItems) => {
 	return cartItems.reduce((acc, curr) => acc + curr.price * curr.quantity, 0);
 };
+
+//Fetch Data from Api
+export const fetchData = async (url) => {
+	try {
+		let response = await fetch(url);
+		let result = await response.json();
+		return result;
+	} catch (err) {
+		console.log(err.message);
+	}
+};

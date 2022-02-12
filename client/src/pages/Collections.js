@@ -1,23 +1,19 @@
 import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
 import Banner from '../components/banner/banner';
 import Card from '../components/card/card';
+import { productActionCreator } from '../redux/action';
 
 export default function Collections() {
-	const [collection, setCollection] = useState([]);
+	const collection = useSelector((state) => state.products);
+	const dispatch = useDispatch();
+	const { getAllProducts } = bindActionCreators(productActionCreator, dispatch);
 
 	useEffect(() => {
-		(async () => {
-			try {
-				let res = await fetch('http://localhost:5000/products');
-				let result = await res.json();
-				setCollection(result.products);
-			} catch (error) {
-				console.log(error.message);
-			}
-		})();
-	}, []);
-
+		getAllProducts('http://localhost:5000/products');
+	}, [getAllProducts]);
 	return (
 		<>
 			<Banner

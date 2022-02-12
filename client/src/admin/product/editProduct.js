@@ -20,18 +20,18 @@ export default function EditProduct({ isOpen, product, updateProduct }) {
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
+		console.log('clicked');
 		try {
 			await fetch(`http://localhost:5000/products/${product._id}`, {
 				method: 'PUT',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(formData),
 			});
+			updateProduct();
 			closeModal();
-			window.location.reload();
 		} catch (error) {
 			console.log(error.message);
 		}
-		updateProduct();
 	};
 
 	return createPortal(

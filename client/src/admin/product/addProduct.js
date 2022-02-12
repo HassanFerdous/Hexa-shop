@@ -36,7 +36,7 @@ export default function AddProductModal({ setNewProductModal, updateProduct }) {
 			.then((data) => console.log(data))
 			.catch((err) => console.log(err.message));
 		updateProduct();
-		closeModal();
+		// closeModal();
 	};
 
 	return createPortal(

@@ -1,22 +1,26 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import useFetch from '../../hooks/useFetch';
 import AddProductModal from './addProduct';
 import EditProduct from './editProduct';
+import { bindActionCreators } from 'redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { productActionCreator } from '../../redux/action';
 
 export default function AdminProducts() {
 	const [isOpen, setIsOpen] = useState(false);
 	const [product, setProduct] = useState(null);
 	const [newProductModal, setNewProductModal] = useState(false);
-	const [productArr, setProductArr] = useState([]);
 
-	const products = useFetch('http://localhost:5000/products');
+	const products = useSelector((state) => state.products);
+	const dispatch = useDispatch();
+	let { getAllProducts } = bindActionCreators(productActionCreator, dispatch);
 
 	const openModal = (id) => {
 		setIsOpen(true);
-		let currentProduct = products.products.find((product) => product._id === id);
+		let currentProduct = products.find((product) => product._id === id);
 		setProduct(currentProduct);
+		dispatchAction();
 	};
 
 	const deleteProduct = async (id) => {
@@ -25,23 +29,16 @@ export default function AdminProducts() {
 		} catch (error) {
 			console.log('failed to delete product');
 		}
-		updateProduct();
+		dispatchAction();
 	};
 
-	function updateProduct() {
-		fetch('http://localhost:5000/products')
-			.then((res) => res.json())
-			.then((data) => setProductArr(data.products))
-			.catch((err) => console.log(err.message));
-	}
+	const dispatchAction = () => {
+		getAllProducts('http://localhost:5000/products');
+	};
 
 	useEffect(() => {
-		// fetch('http://localhost:5000/products')
-		// 	.then((res) => res.json())
-		// 	.then((data) => setProductArr(data.products))
-		// 	.catch((err) => console.log(err.message));
-		updateProduct();
-	}, []);
+		dispatchAction();
+	});
 
 	return (
 		<div className='dashboard'>
@@ -95,7 +92,7 @@ export default function AdminProducts() {
 							</div>
 						</div>
 
-						{productArr.map((product, idx) => {
+						{products.map((product, idx) => {
 							return (
 								<div className='table-row product' key={idx}>
 									<div className='table-data product__id'>
@@ -121,7 +118,13 @@ export default function AdminProducts() {
 									</div>
 									<div className='table-data product-action'>
 										<div className='product-action__group'>
-											<Link className='product-action__edit' onClick={(e) => openModal(product._id)} to='#'>
+											<Link
+												className='product-action__edit'
+												onClick={(e) => {
+													e.preventDefault();
+													openModal(product._id);
+												}}
+												to='#'>
 												Edit
 											</Link>
 											<Link
@@ -138,9 +141,9 @@ export default function AdminProducts() {
 					</div>
 				</div>
 			</div>
-			{isOpen ? <EditProduct isOpen={setIsOpen} product={product} updateProduct={updateProduct} /> : null}
+			{isOpen ? <EditProduct isOpen={setIsOpen} product={product} updateProduct={dispatchAction} /> : null}
 			{newProductModal ? (
-				<AddProductModal setNewProductModal={setNewProductModal} updateProduct={updateProduct} />
+				<AddProductModal setNewProductModal={setNewProductModal} updateProduct={dispatchAction} />
 			) : null}
 		</div>
 	);
