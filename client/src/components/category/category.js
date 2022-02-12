@@ -1,5 +1,5 @@
 // Import Swiper React components
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import SwiperCore, { Navigation } from 'swiper';
 import Card from '../card/card';
@@ -47,11 +47,14 @@ export default function Category({ category, title, desc }) {
 								slidesPerView: 3,
 							},
 						}}>
-						{category.map((categoryItem, idx) => (
-							<SwiperSlide key={idx}>
-								<Card product={categoryItem} />
-							</SwiperSlide>
-						))}
+						{category.map(
+							(categoryItem, idx) =>
+								idx <= 5 && (
+									<SwiperSlide key={idx}>
+										<Card product={categoryItem} />
+									</SwiperSlide>
+								)
+						)}
 					</Swiper>
 				</div>
 			</div>
