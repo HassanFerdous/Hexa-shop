@@ -2,8 +2,11 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const productRouter = require('./routes/productsRouter');
+const userRouter = require('./routes/userRouter');
+
 const cors = require('cors');
 const { urlencoded } = require('express');
+
 //init app
 const app = express();
 
@@ -27,6 +30,7 @@ mongoose
 
 //Routes
 app.use('/products', productRouter);
+app.use('/user/', userRouter);
 
 //Error Handling middleware
 app.use((err, req, res, next) => {
