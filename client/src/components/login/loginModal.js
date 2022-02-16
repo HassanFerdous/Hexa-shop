@@ -2,14 +2,16 @@ import { Link } from 'react-router-dom';
 import { createPortal } from 'react-dom';
 import useModal from '../../hooks/modal';
 import { useState } from 'react';
+import { postData } from '../../utilities/utils';
 const LoginModal = ({ hideModal }) => {
 	const { isShowing, toggle } = useModal();
-	const [login, setLogin] = useState(false);
+	const [login, setLogin] = useState(true);
 
 	const [loginFormData, setLoginFormData] = useState({
 		email: '',
 		password: '',
 	});
+
 	const [signUpFormData, setSignUpFormData] = useState({
 		name: '',
 		email: '',
@@ -22,9 +24,34 @@ const LoginModal = ({ hideModal }) => {
 	};
 
 	const handleChange = (e) => {
-		setLoginFormData({ ...loginFormData, [e.target.name]: e.target.value });
+		if (!login) {
+			setLoginFormData({ ...loginFormData, [e.target.name]: e.target.value });
+			return;
+		}
 		setSignUpFormData({ ...signUpFormData, [e.target.name]: e.target.value });
-		console.log(signUpFormData);
+	};
+
+	const handleSignup = async (e) => {
+		e.preventDefault();
+
+		if (signUpFormData.password === signUpFormData.rePassword) {
+			delete signUpFormData.rePassword;
+			let result = await postData('http://localhost:5000/user/', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(signUpFormData),
+			});
+			console.log(result);
+		} else {
+			console.log('password not matched');
+		}
+	};
+
+	const handleLogin = (e) => {
+		e.preventDefault();
+		console.log('clicked');
 	};
 
 	return isShowing
@@ -43,7 +70,11 @@ const LoginModal = ({ hideModal }) => {
 								</button>
 								{login ? (
 									<div className='modal__body'>
-										<form action='#' className='form form-account'>
+										<form
+											action='#'
+											className='form form-account'
+											encType='multipart/form-data'
+											onSubmit={handleSignup}>
 											<div className='form-row'>
 												<input
 													type='name'
@@ -85,9 +116,7 @@ const LoginModal = ({ hideModal }) => {
 												/>
 											</div>
 											<div className='form-row'>
-												<button type='submit' className='form-submit'>
-													Sign-up
-												</button>
+												<input className='btn form-submit' type='submit' value='Submit' />
 											</div>
 											<p className='text-center'>
 												Already have an account.
@@ -99,7 +128,11 @@ const LoginModal = ({ hideModal }) => {
 									</div>
 								) : (
 									<div className='modal__body'>
-										<form action='#' className='form form-account'>
+										<form
+											action='#'
+											className='form form-account'
+											encType='multipart/form-data'
+											onSubmit={handleLogin}>
 											<div className='form-row'>
 												<input
 													type='email'
@@ -112,7 +145,7 @@ const LoginModal = ({ hideModal }) => {
 											</div>
 											<div className='form-row'>
 												<input
-													type='email'
+													type='password'
 													className='form-control'
 													placeholder='Password'
 													name='password'

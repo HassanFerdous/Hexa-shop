@@ -3,8 +3,6 @@ const userModel = require('../models/userModel');
 //get-all user
 const getAllUser = async (req, res, next) => {
 	try {
-		// let newUser = new userModel();
-		// await newUser.save();
 		let users = await userModel.find({});
 		res.status(200).json({ users });
 	} catch (err) {
@@ -16,9 +14,11 @@ const getAllUser = async (req, res, next) => {
 
 //post new user
 const addUser = async (req, res, next) => {
+	console.log(req.body);
+	let newUser = new userModel(req.body);
+
 	try {
-		let newUser = new userModel(req.body);
-		await newUser.save();
+		let user = await newUser.save();
 		res.status(200).json({
 			message: 'successfully added new user',
 		});

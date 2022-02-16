@@ -28,8 +28,10 @@ mongoose
 		console.log(err.message);
 	});
 
-//Routes
+//product route
 app.use('/products', productRouter);
+
+//user route
 app.use('/user/', userRouter);
 
 //Error Handling middleware

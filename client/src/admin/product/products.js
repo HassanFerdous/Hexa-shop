@@ -47,7 +47,7 @@ export default function AdminProducts() {
 				<ul className='dashboard-sidebar__list'>
 					<li className='dashboard-sidebar__item'>
 						<Link className='dashboard-sidebar__link' to='#'>
-							Users
+							User
 						</Link>
 					</li>
 					<li className='dashboard-sidebar__item'>

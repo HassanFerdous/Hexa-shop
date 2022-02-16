@@ -14,9 +14,9 @@ const userSchema = mongoose.Schema(
 			type: String,
 			required: true,
 		},
-		userType: {
-			type: String,
-		},
+		// userType: {
+		// 	type: String,
+		// },
 	},
 	{
 		timeStamp: true,

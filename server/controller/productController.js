@@ -8,7 +8,7 @@ async function getProducts(req, res, next) {
 //add
 async function addProduct(req, res, next) {
 	let productData = { ...req.body, img: req.file.filename };
-	// console.log(productData);
+	console.log(productData);
 	const newProduct = new Product(productData);
 	try {
 		const response = await newProduct.save();

@@ -16,7 +16,7 @@ export default function AddProductModal({ setNewProductModal, updateProduct }) {
 
 	const handleChange = (e) => setFormFormValue((data) => (data = { ...data, [e.target.name]: e.target.value }));
 
-	const handleSubmit = async (e) => {
+	const handleSubmit = (e) => {
 		e.preventDefault();
 		let file = e.target.querySelector('[name="img"');
 

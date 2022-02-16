@@ -37,3 +37,14 @@ export const fetchData = async (url) => {
 		console.log(err.message);
 	}
 };
+
+//post data
+export const postData = async (url, options) => {
+	try {
+		let response = await fetch(url, options);
+		let result = await response.json();
+		return result;
+	} catch (err) {
+		console.log(err.message);
+	}
+};
