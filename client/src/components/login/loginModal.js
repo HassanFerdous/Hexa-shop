@@ -35,23 +35,38 @@ const LoginModal = ({ hideModal }) => {
 		e.preventDefault();
 
 		if (signUpFormData.password === signUpFormData.rePassword) {
-			delete signUpFormData.rePassword;
-			let result = await postData('http://localhost:5000/user/', {
+			let response = await postData('http://localhost:5000/account/register', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
 				},
 				body: JSON.stringify(signUpFormData),
 			});
-			console.log(result);
+			console.log(response);
+			setSignUpFormData({ name: '', email: '', password: '', rePassword: '' });
+			hideModal();
 		} else {
 			console.log('password not matched');
 		}
 	};
 
-	const handleLogin = (e) => {
+	const handleLogin = async (e) => {
 		e.preventDefault();
 		console.log('clicked');
+		try {
+			let response = await postData('http://localhost:5000/account/signin', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(loginFormData),
+			});
+			console.log(response);
+			setLoginFormData({ email: '', password: '' });
+			hideModal();
+		} catch (error) {
+			console.log(error.message);
+		}
 	};
 
 	return isShowing
@@ -81,6 +96,7 @@ const LoginModal = ({ hideModal }) => {
 													className='form-control'
 													placeholder='User'
 													name='name'
+													value={signUpFormData.name}
 													onChange={handleChange}
 													required
 												/>
@@ -91,6 +107,7 @@ const LoginModal = ({ hideModal }) => {
 													className='form-control'
 													placeholder='Email'
 													name='email'
+													value={signUpFormData.email}
 													onChange={handleChange}
 													required
 												/>
@@ -101,6 +118,7 @@ const LoginModal = ({ hideModal }) => {
 													className='form-control'
 													placeholder='Password'
 													name='password'
+													value={signUpFormData.password}
 													onChange={handleChange}
 													required
 												/>
@@ -111,6 +129,7 @@ const LoginModal = ({ hideModal }) => {
 													className='form-control'
 													placeholder='Repeat-password'
 													name='rePassword'
+													value={signUpFormData.rePassword}
 													onChange={handleChange}
 													required
 												/>
@@ -139,6 +158,7 @@ const LoginModal = ({ hideModal }) => {
 													className='form-control'
 													placeholder='Email'
 													name='email'
+													value={loginFormData.email}
 													onChange={handleChange}
 													required
 												/>
@@ -149,6 +169,7 @@ const LoginModal = ({ hideModal }) => {
 													className='form-control'
 													placeholder='Password'
 													name='password'
+													value={loginFormData.password}
 													onChange={handleChange}
 													required
 												/>

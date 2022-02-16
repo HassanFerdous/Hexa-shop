@@ -32,7 +32,7 @@ mongoose
 app.use('/products', productRouter);
 
 //user route
-app.use('/user/', userRouter);
+app.use('/account/', userRouter);
 
 //Error Handling middleware
 app.use((err, req, res, next) => {
