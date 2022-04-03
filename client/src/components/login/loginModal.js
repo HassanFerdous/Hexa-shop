@@ -1,10 +1,14 @@
 import { Link } from 'react-router-dom';
-import { createPortal } from 'react-dom';
 import useModal from '../../hooks/modal';
 import { useState } from 'react';
 import { postData } from '../../utilities/utils';
+import { useDispatch } from 'react-redux';
+
 const LoginModal = ({ hideModal }) => {
-	const { isShowing, toggle } = useModal();
+	const dispatch = useDispatch();
+
+	//state
+	const { toggle } = useModal();
 	const [login, setLogin] = useState(true);
 
 	const [loginFormData, setLoginFormData] = useState({
@@ -35,7 +39,7 @@ const LoginModal = ({ hideModal }) => {
 		e.preventDefault();
 
 		if (signUpFormData.password === signUpFormData.rePassword) {
-			let response = await postData('http://localhost:5000/account/register', {
+			await postData('http://localhost:5000/account/register', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -51,6 +55,7 @@ const LoginModal = ({ hideModal }) => {
 
 	const handleLogin = async (e) => {
 		e.preventDefault();
+
 		try {
 			let response = await postData('http://localhost:5000/account/signin', {
 				method: 'POST',
@@ -59,143 +64,140 @@ const LoginModal = ({ hideModal }) => {
 				},
 				body: JSON.stringify(loginFormData),
 			});
-			let { token } = response;
 
-			document.cookie = `access_token=${token}`;
-
-			setLoginFormData({ email: '', password: '' });
-			hideModal();
+			if (response.user) {
+				dispatch({ type: 'SET_USER', payload: response.user });
+				setLoginFormData({ email: '', password: '' });
+				hideModal();
+			}
 		} catch (error) {
 			console.log(error.message);
 		}
 	};
 
-	return isShowing
-		? createPortal(
-				<div className='modal account-modal'>
-					<div className='modal-table'>
-						<div className='modal-table__cell'>
-							<div className='modal__content'>
-								<button
-									className='modal__close'
-									onClick={() => {
-										toggle();
-										hideModal();
-									}}>
-									<img src='/assets/svgs/close.svg' alt='' />
-								</button>
-								{!login ? (
-									<div className='modal__body'>
-										<form
-											action='#'
-											className='form form-account'
-											encType='multipart/form-data'
-											onSubmit={handleSignup}>
-											<div className='form-row'>
-												<input
-													type='name'
-													className='form-control'
-													placeholder='User'
-													name='name'
-													value={signUpFormData.name}
-													onChange={handleChange}
-													required
-												/>
-											</div>
-											<div className='form-row'>
-												<input
-													type='email'
-													className='form-control'
-													placeholder='Email'
-													name='email'
-													value={signUpFormData.email}
-													onChange={handleChange}
-													required
-												/>
-											</div>
-											<div className='form-row'>
-												<input
-													type='password'
-													className='form-control'
-													placeholder='Password'
-													name='password'
-													value={signUpFormData.password}
-													onChange={handleChange}
-													required
-												/>
-											</div>
-											<div className='form-row'>
-												<input
-													type='password'
-													className='form-control'
-													placeholder='Repeat-password'
-													name='rePassword'
-													value={signUpFormData.rePassword}
-													onChange={handleChange}
-													required
-												/>
-											</div>
-											<div className='form-row'>
-												<input className='btn form-submit' type='submit' value='Submit' />
-											</div>
-											<p className='text-center'>
-												Already have an account.
-												<Link to='#' onClick={toggleLogin}>
-													Sign-in
-												</Link>
-											</p>
-										</form>
+	return (
+		<div className='modal account-modal'>
+			<div className='modal-table'>
+				<div className='modal-table__cell'>
+					<div className='modal__content'>
+						<button
+							className='modal__close'
+							onClick={() => {
+								toggle();
+								hideModal();
+							}}>
+							<img src='/assets/svgs/close.svg' alt='' />
+						</button>
+						{login ? (
+							<div className='modal__body'>
+								<form
+									action='#'
+									className='form form-account'
+									encType='multipart/form-data'
+									onSubmit={handleSignup}>
+									<div className='form-row'>
+										<input
+											type='name'
+											className='form-control'
+											placeholder='User'
+											name='name'
+											value={signUpFormData.name}
+											onChange={handleChange}
+											required
+										/>
 									</div>
-								) : (
-									<div className='modal__body'>
-										<form
-											action='#'
-											className='form form-account'
-											encType='multipart/form-data'
-											onSubmit={handleLogin}>
-											<div className='form-row'>
-												<input
-													type='email'
-													className='form-control'
-													placeholder='Email'
-													name='email'
-													value={loginFormData.email}
-													onChange={handleChange}
-													required
-												/>
-											</div>
-											<div className='form-row'>
-												<input
-													type='password'
-													className='form-control'
-													placeholder='Password'
-													name='password'
-													value={loginFormData.password}
-													onChange={handleChange}
-													required
-												/>
-											</div>
-											<div className='form-row'>
-												<button type='submit' className='form-submit'>
-													Sign-in
-												</button>
-											</div>
-											<p className='text-center'>
-												Don't have an account. Create a
-												<Link to='#' onClick={toggleLogin}>
-													new account
-												</Link>
-											</p>
-										</form>
+									<div className='form-row'>
+										<input
+											type='email'
+											className='form-control'
+											placeholder='Email'
+											name='email'
+											value={signUpFormData.email}
+											onChange={handleChange}
+											required
+										/>
 									</div>
-								)}
+									<div className='form-row'>
+										<input
+											type='password'
+											className='form-control'
+											placeholder='Password'
+											name='password'
+											value={signUpFormData.password}
+											onChange={handleChange}
+											required
+										/>
+									</div>
+									<div className='form-row'>
+										<input
+											type='password'
+											className='form-control'
+											placeholder='Repeat-password'
+											name='rePassword'
+											value={signUpFormData.rePassword}
+											onChange={handleChange}
+											required
+										/>
+									</div>
+									<div className='form-row'>
+										<input className='btn form-submit' type='submit' value='Submit' />
+									</div>
+									<p className='text-center'>
+										Already have an account.
+										<Link to='#' onClick={toggleLogin}>
+											Sign-in
+										</Link>
+									</p>
+								</form>
 							</div>
-						</div>
+						) : (
+							<div className='modal__body'>
+								<form
+									action='#'
+									className='form form-account'
+									encType='multipart/form-data'
+									onSubmit={handleLogin}>
+									<div className='form-row'>
+										<input
+											type='email'
+											className='form-control'
+											placeholder='Email'
+											name='email'
+											value={loginFormData.email}
+											onChange={handleChange}
+											required
+										/>
+									</div>
+									<div className='form-row'>
+										<input
+											type='password'
+											className='form-control'
+											placeholder='Password'
+											name='password'
+											value={loginFormData.password}
+											onChange={handleChange}
+											required
+										/>
+									</div>
+									<div className='form-row'>
+										<button type='submit' className='form-submit'>
+											Sign-in
+										</button>
+									</div>
+									<p className='text-center'>
+										Don't have an account. Create a
+										<Link to='#' onClick={toggleLogin}>
+											new account
+										</Link>
+									</p>
+								</form>
+							</div>
+						)}
 					</div>
-				</div>,
-				document.body
-		  )
-		: null;
+				</div>
+			</div>
+		</div>
+	);
 };
 
 export default LoginModal;

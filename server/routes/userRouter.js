@@ -20,6 +20,7 @@ router.put('/:id', updateUser);
 router.delete('/:id', deleteUser);
 
 router.post('/welcome', auth, (req, res) => {
+	console.log(req.cookies);
 	res.status(200).send('Welcome 🙌 ');
 });
 

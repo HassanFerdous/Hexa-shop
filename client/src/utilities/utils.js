@@ -48,3 +48,11 @@ export const postData = async (url, options) => {
 		console.log(err.message);
 	}
 };
+
+//get cookie
+export const getCookieValue = (name) => {
+	return document.cookie
+		.split('; ')
+		.find((row) => row.startsWith(`${name}=`))
+		.split('=')[1];
+};

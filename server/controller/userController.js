@@ -67,11 +67,15 @@ const signIn = async (req, res, next) => {
 				return res
 					.cookie('access_token', token, {
 						httpOnly: true,
+						maxAge: 2 * 60 * 60 * 1000,
 					})
 					.status(200)
 					.json({
 						message: 'user successfully logged in',
-						token: token,
+						user: {
+							userId: user._id,
+							email: user.email,
+						},
 					});
 			} else {
 				res.status(500).json({
