@@ -3,15 +3,18 @@ const express = require('express');
 const mongoose = require('mongoose');
 const productRouter = require('./routes/productsRouter');
 const userRouter = require('./routes/userRouter');
-
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const { urlencoded } = require('express');
+
+require('dotenv').config();
 
 //init app
 const app = express();
 
 //parse json
 app.use(express.json());
+app.use(cookieParser());
 app.use(urlencoded({ extended: false }));
 app.use(cors());
 

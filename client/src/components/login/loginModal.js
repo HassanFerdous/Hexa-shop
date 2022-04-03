@@ -42,7 +42,6 @@ const LoginModal = ({ hideModal }) => {
 				},
 				body: JSON.stringify(signUpFormData),
 			});
-			console.log(response);
 			setSignUpFormData({ name: '', email: '', password: '', rePassword: '' });
 			hideModal();
 		} else {
@@ -52,7 +51,6 @@ const LoginModal = ({ hideModal }) => {
 
 	const handleLogin = async (e) => {
 		e.preventDefault();
-		console.log('clicked');
 		try {
 			let response = await postData('http://localhost:5000/account/signin', {
 				method: 'POST',
@@ -61,7 +59,10 @@ const LoginModal = ({ hideModal }) => {
 				},
 				body: JSON.stringify(loginFormData),
 			});
-			console.log(response);
+			let { token } = response;
+
+			document.cookie = `access_token=${token}`;
+
 			setLoginFormData({ email: '', password: '' });
 			hideModal();
 		} catch (error) {
@@ -83,7 +84,7 @@ const LoginModal = ({ hideModal }) => {
 									}}>
 									<img src='/assets/svgs/close.svg' alt='' />
 								</button>
-								{login ? (
+								{!login ? (
 									<div className='modal__body'>
 										<form
 											action='#'
