@@ -61,8 +61,8 @@ const signIn = async (req, res, next) => {
 					expiresIn: '2h',
 				});
 
-				//save token
-				user.token = token;
+				//save new token
+				const updatedToken = await userModel.findOneAndUpdate({ _id: user._id }, { $set: { token: token } });
 
 				return res
 					.cookie('access_token', token, {
@@ -131,10 +131,17 @@ async function getOldUser(email) {
 	return oldUser;
 }
 
+async function showAccountPage(req, res) {
+	res.status(200).json({
+		message: 'this is account page',
+	});
+}
+
 module.exports = {
 	getAllUser,
 	register,
 	signIn,
 	updateUser,
 	deleteUser,
+	showAccountPage,
 };
