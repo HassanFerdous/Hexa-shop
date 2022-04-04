@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom';
 import useModal from '../../hooks/modal';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { postData } from '../../utilities/utils';
 import { useDispatch } from 'react-redux';
+import { setAuthenticatedUser } from '../../redux/reducer/user/userAction';
 
 const LoginModal = ({ hideModal }) => {
 	const dispatch = useDispatch();
@@ -27,19 +28,21 @@ const LoginModal = ({ hideModal }) => {
 		setLogin(!login);
 	};
 
-	const handleChange = (e) => {
-		if (!login) {
-			setLoginFormData({ ...loginFormData, [e.target.name]: e.target.value });
-			return;
-		}
-		setSignUpFormData({ ...signUpFormData, [e.target.name]: e.target.value });
-	};
+	const handleChange = useCallback(
+		(e) => {
+			if (!login) {
+				setLoginFormData({ ...loginFormData, [e.target.name]: e.target.value });
+				return;
+			}
+			setSignUpFormData({ ...signUpFormData, [e.target.name]: e.target.value });
+		},
+		[loginFormData, signUpFormData, login]
+	);
 
 	const handleSignup = async (e) => {
 		e.preventDefault();
-
 		if (signUpFormData.password === signUpFormData.rePassword) {
-			await postData('http://localhost:5000/account/register', {
+			await postData('http://localhost:5000/register', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -57,7 +60,7 @@ const LoginModal = ({ hideModal }) => {
 		e.preventDefault();
 
 		try {
-			let response = await postData('http://localhost:5000/account/signin', {
+			let response = await postData('http://localhost:5000/signin', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
@@ -66,7 +69,7 @@ const LoginModal = ({ hideModal }) => {
 			});
 
 			if (response.user) {
-				dispatch({ type: 'SET_USER', payload: response.user });
+				dispatch(setAuthenticatedUser(response.user));
 				setLoginFormData({ email: '', password: '' });
 				hideModal();
 			}

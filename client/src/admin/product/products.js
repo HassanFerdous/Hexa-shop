@@ -12,7 +12,10 @@ export default function AdminProducts() {
 	const [product, setProduct] = useState(null);
 	const [newProductModal, setNewProductModal] = useState(false);
 
-	const products = useSelector((state) => state.products);
+	const products = useSelector((state) => {
+		return state.products;
+	});
+
 	const dispatch = useDispatch();
 	let { getAllProducts } = bindActionCreators(productActionCreator, dispatch);
 
@@ -38,6 +41,7 @@ export default function AdminProducts() {
 
 	useEffect(() => {
 		dispatchAction();
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	return (

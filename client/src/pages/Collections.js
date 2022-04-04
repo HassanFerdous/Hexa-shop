@@ -13,6 +13,7 @@ export default function Collections() {
 
 	useEffect(() => {
 		getAllProducts('http://localhost:5000/products');
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 	return (
 		<>

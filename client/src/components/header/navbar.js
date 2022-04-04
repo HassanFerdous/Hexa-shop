@@ -1,15 +1,23 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Cart from '../cart/cart';
 import LoginModal from '../login/loginModal';
 
 export default function Navbar({ isNavOpen }) {
 	const cartItems = useSelector((state) => state.cart);
+	const { authenticatedUser } = useSelector((state) => state.user);
+
 	const [isCartOpen, setIsCartOpen] = useState(false);
 	const [showAccModal, setShowAccModal] = useState(false);
+	let navigate = useNavigate();
 
 	const openAccountModal = () => {
+		if (authenticatedUser) {
+			navigate('/account', { replace: true });
+			console.log(authenticatedUser);
+			return;
+		}
 		setShowAccModal(true);
 	};
 
@@ -36,15 +44,14 @@ export default function Navbar({ isNavOpen }) {
 					</Link>
 				</li>
 				<li className='navbar__item'>
-					<Link to='#' className='navbar__link' onClick={openAccountModal}>
+					<span className='navbar__link' onClick={openAccountModal}>
 						Account
-					</Link>
+					</span>
 				</li>
 				<li className='navbar__item'>
 					<Link to='#' className='navbar__link'>
 						Contact
 					</Link>
-					{showAccModal ? <LoginModal hideModal={hideModal} /> : null}
 				</li>
 				<li className='navbar__item'>
 					<Link to='#' className='cart-btn' onClick={() => setIsCartOpen(!isCartOpen)}>
@@ -54,6 +61,8 @@ export default function Navbar({ isNavOpen }) {
 					{isCartOpen ? <Cart setIsCartOpen={setIsCartOpen} /> : null}
 				</li>
 			</ul>
+
+			{showAccModal ? <LoginModal hideModal={hideModal} /> : null}
 		</nav>
 	);
 }

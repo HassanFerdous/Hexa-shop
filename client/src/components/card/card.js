@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { cartActionCreator } from '../../redux/action';
 
@@ -7,7 +7,6 @@ function Card({ product }) {
 
 	const dispatch = useDispatch();
 	const { addItemToCart } = bindActionCreators(cartActionCreator, dispatch);
-	const cartItems = useSelector((state) => state.cart);
 	return (
 		<div className='card'>
 			<div className='card__thumb'>
@@ -25,7 +24,6 @@ function Card({ product }) {
 						className='card-btn'
 						onClick={() => {
 							addItemToCart(product);
-							// console.log(cartItems);
 						}}>
 						<img src='/assets/svgs/shopping-bag.svg' alt='bag' />
 					</button>
