@@ -62,7 +62,7 @@ const signIn = async (req, res, next) => {
 				});
 
 				//save new token
-				const updatedToken = await userModel.findOneAndUpdate({ _id: user._id }, { $set: { token: token } });
+				const updatedUserToken = await userModel.findOneAndUpdate({ _id: user._id }, { $set: { token: token } });
 
 				return res
 					.cookie('access_token', token, {
@@ -72,10 +72,7 @@ const signIn = async (req, res, next) => {
 					.status(200)
 					.json({
 						message: 'user successfully logged in',
-						user: {
-							userId: user._id,
-							email: user.email,
-						},
+						token,
 					});
 			} else {
 				res.status(500).json({
@@ -131,10 +128,18 @@ async function getOldUser(email) {
 	return oldUser;
 }
 
-async function showAccountPage(req, res) {
-	res.status(200).json({
-		message: 'this is account page',
-	});
+async function showUserInfo(req, res) {
+	try {
+		let user = await userModel.findById(req.params.id);
+		res.status(200).json({
+			message: 'this is account page',
+			user,
+		});
+	} catch (err) {
+		res.status(500).json({
+			err: err,
+		});
+	}
 }
 
 module.exports = {
@@ -143,5 +148,5 @@ module.exports = {
 	signIn,
 	updateUser,
 	deleteUser,
-	showAccountPage,
+	showUserInfo,
 };

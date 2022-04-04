@@ -1,5 +1,48 @@
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchData } from '../utilities/utils';
+import jwt_decode from 'jwt-decode';
+import { setAuthenticatedUser } from '../redux/reducer/user/userAction';
+import { useNavigate } from 'react-router-dom';
+
 function Account() {
-	return <div className='account'>I am account page</div>;
+	const dispatch = useDispatch();
+	const [user, setUser] = useState(null);
+
+	const { access_token } = useSelector((state) => state.user);
+	const decode = jwt_decode(access_token);
+	let navigate = useNavigate();
+
+	const handleLogout = (e) => {
+		e.preventDefault();
+		navigate('/', { replace: true });
+		localStorage.removeItem('access_token');
+		dispatch(setAuthenticatedUser(null));
+	};
+
+	useEffect(() => {
+		(async function () {
+			let response = await fetchData(`http://localhost:5000/account/${decode.user_id}`, {
+				headers: {
+					'x-access-token': access_token,
+				},
+			});
+			setUser(response.user);
+		})();
+	}, []);
+
+	return (
+		<div className='account'>
+			<div className='account__inner'>
+				<div className='account__header'>
+					<h6 className='account__user'>{user?.name}</h6>
+					<button className='btn btn-outline-black logout-btn' onClick={handleLogout}>
+						Logout
+					</button>
+				</div>
+			</div>
+		</div>
+	);
 }
 
 export default Account;

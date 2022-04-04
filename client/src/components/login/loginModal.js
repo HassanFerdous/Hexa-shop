@@ -4,10 +4,11 @@ import { useCallback, useState } from 'react';
 import { postData } from '../../utilities/utils';
 import { useDispatch } from 'react-redux';
 import { setAuthenticatedUser } from '../../redux/reducer/user/userAction';
+import { useNavigate } from 'react-router-dom';
 
 const LoginModal = ({ hideModal }) => {
 	const dispatch = useDispatch();
-
+	const navigate = useNavigate();
 	//state
 	const { toggle } = useModal();
 	const [login, setLogin] = useState(true);
@@ -50,6 +51,7 @@ const LoginModal = ({ hideModal }) => {
 				body: JSON.stringify(signUpFormData),
 			});
 			setSignUpFormData({ name: '', email: '', password: '', rePassword: '' });
+			navigate('/account', { replace: true });
 			hideModal();
 		} else {
 			console.log('password not matched');
@@ -68,9 +70,10 @@ const LoginModal = ({ hideModal }) => {
 				body: JSON.stringify(loginFormData),
 			});
 
-			if (response.user) {
-				dispatch(setAuthenticatedUser(response.user));
+			if (response.token) {
+				dispatch(setAuthenticatedUser(response.token));
 				setLoginFormData({ email: '', password: '' });
+				navigate('/account', { replace: true });
 				hideModal();
 			}
 		} catch (error) {

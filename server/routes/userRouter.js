@@ -1,12 +1,5 @@
 const express = require('express');
-const {
-	getAllUser,
-	register,
-	signIn,
-	updateUser,
-	deleteUser,
-	showAccountPage,
-} = require('../controller/userController');
+const { getAllUser, register, signIn, updateUser, deleteUser, showUserInfo } = require('../controller/userController');
 const auth = require('../middleware/auth');
 
 const router = express.Router();
@@ -21,7 +14,7 @@ router.post('/signin', signIn);
 router.post('/register', register);
 
 //account-page
-router.get('/account', auth, showAccountPage);
+router.get('/account/:id', auth, showUserInfo);
 
 //update user
 router.put('/account/:id', updateUser);

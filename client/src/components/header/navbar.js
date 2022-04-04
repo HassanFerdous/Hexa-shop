@@ -6,16 +6,15 @@ import LoginModal from '../login/loginModal';
 
 export default function Navbar({ isNavOpen }) {
 	const cartItems = useSelector((state) => state.cart);
-	const { authenticatedUser } = useSelector((state) => state.user);
+	const { access_token } = useSelector((state) => state.user);
 
 	const [isCartOpen, setIsCartOpen] = useState(false);
 	const [showAccModal, setShowAccModal] = useState(false);
 	let navigate = useNavigate();
 
 	const openAccountModal = () => {
-		if (authenticatedUser) {
+		if (access_token) {
 			navigate('/account', { replace: true });
-			console.log(authenticatedUser);
 			return;
 		}
 		setShowAccModal(true);
