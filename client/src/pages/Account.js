@@ -6,12 +6,27 @@ import { setAuthenticatedUser } from '../redux/reducer/user/userAction';
 import { useNavigate } from 'react-router-dom';
 
 function Account() {
-	const dispatch = useDispatch();
 	const [user, setUser] = useState(null);
-
-	const { access_token } = useSelector((state) => state.user);
-	const decode = jwt_decode(access_token);
 	let navigate = useNavigate();
+	const dispatch = useDispatch();
+	const { access_token } = useSelector((state) => state.user);
+
+	useEffect(() => {
+		try {
+			const decode = jwt_decode(access_token);
+			(async function () {
+				let response = await fetchData(`http://localhost:5000/account/${decode.user_id}`, {
+					headers: {
+						'x-access-token': access_token,
+					},
+				});
+				setUser(response.user);
+			})();
+		} catch (error) {
+			navigate('/', { replace: true });
+			return;
+		}
+	}, [access_token, navigate]);
 
 	const handleLogout = (e) => {
 		e.preventDefault();
@@ -19,17 +34,6 @@ function Account() {
 		localStorage.removeItem('access_token');
 		dispatch(setAuthenticatedUser(null));
 	};
-
-	useEffect(() => {
-		(async function () {
-			let response = await fetchData(`http://localhost:5000/account/${decode.user_id}`, {
-				headers: {
-					'x-access-token': access_token,
-				},
-			});
-			setUser(response.user);
-		})();
-	}, []);
 
 	return (
 		<div className='account'>
