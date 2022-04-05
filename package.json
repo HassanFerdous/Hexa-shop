@@ -1,5 +1,26 @@
 {
   "dependencies": {
-    "bcrypt": "^5.0.1"
-  }
+    "bcrypt": "^5.0.1",
+    "concurrently": "^7.1.0"
+  },
+  "name": "hexa-shop",
+  "description": "",
+  "version": "1.0.0",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "server": "cd server && npm start",
+    "start": "cd client && npm start",
+    "dev": "concurrently -r \"npm run server\" \"npm start\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HassanFerdous/Hexa-shop.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HassanFerdous/Hexa-shop/issues"
+  },
+  "homepage": "https://github.com/HassanFerdous/Hexa-shop#readme"
 }
