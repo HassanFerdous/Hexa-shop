@@ -1,11 +1,20 @@
 const express = require('express');
-const { getProducts, addProduct, deleteProduct, updateProduct } = require('../controller/productController');
+const {
+	getProducts,
+	addProduct,
+	deleteProduct,
+	updateProduct,
+	getSingleProduct,
+} = require('../controller/productController');
 const { upload } = require('../middleware/singleUpload');
 
 const router = express.Router();
 
-//get products
+//get all products
 router.get('/', getProducts);
+
+//get single-product
+router.get('/:id', getSingleProduct);
 
 //add products
 router.post('/', upload.single('img'), addProduct);

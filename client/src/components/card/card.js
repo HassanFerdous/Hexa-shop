@@ -1,12 +1,18 @@
 import { useDispatch } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { cartActionCreator } from '../../redux/action';
+import { useNavigate } from 'react-router-dom';
 
 function Card({ product }) {
 	const { title, img, price, rating = 5 } = product;
-
 	const dispatch = useDispatch();
 	const { addItemToCart } = bindActionCreators(cartActionCreator, dispatch);
+	let navigate = useNavigate();
+
+	const handleClick = () => {
+		navigate(`/products/${product._id}`, { replace: true });
+	};
+
 	return (
 		<div className='card'>
 			<div className='card__thumb'>
@@ -31,7 +37,9 @@ function Card({ product }) {
 			</div>
 
 			<div className='card__row'>
-				<h3 className='card__title'>{title}</h3>
+				<h3 className='card__title' onClick={handleClick}>
+					{title}
+				</h3>
 				<div className='card__rating'>
 					{Array(rating)
 						.fill()

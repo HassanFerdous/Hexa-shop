@@ -1,8 +1,28 @@
 const Product = require('../models/productModel');
 //get-all
 async function getProducts(req, res, next) {
-	const products = await Product.find({});
-	res.status(200).json({ products });
+	try {
+		const products = await Product.find({});
+		res.status(200).json({ products });
+	} catch (error) {
+		res.status(500).json({
+			err: err,
+			message: 'internal-server error',
+		});
+	}
+}
+
+async function getSingleProduct(req, res, next) {
+	let productId = req.params.id;
+	try {
+		const product = await Product.findById(productId);
+		res.status(200).json({ product: product });
+	} catch (err) {
+		res.status(500).json({
+			err: err,
+			message: 'product not found',
+		});
+	}
 }
 
 //add
@@ -67,4 +87,5 @@ module.exports = {
 	addProduct,
 	deleteProduct,
 	updateProduct,
+	getSingleProduct,
 };
