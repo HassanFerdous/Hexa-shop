@@ -16,7 +16,7 @@ export default function App() {
 					<Route path='/' element={<Home />} />
 					<Route path='/products/' element={<Collections />} />
 					<Route path='/products/:id' element={<Product />} />
-					<Route path='' element={<Account />} />
+					<Route path='/account' element={<Account />} />
 					<Route path='/admin/products' element={<AdminProducts />} />
 				</Routes>
 				<Footer />

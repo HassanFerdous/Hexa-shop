@@ -11,6 +11,8 @@ export const incrementQuantity = (cartItems, id) => {
 	const existItem = cartItems.find((i) => i._id === id);
 	if (existItem) {
 		return cartItems.map((i) => (i._id === id ? { ...i, quantity: i.quantity + 1 } : i));
+	} else {
+		return cartItems;
 	}
 };
 
