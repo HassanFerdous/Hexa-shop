@@ -20,7 +20,7 @@ app.use(cors());
 
 //connect server
 mongoose
-	.connect('mongodb://localhost/hexashop', {
+	.connect(process.env.MONGO_URI, {
 		useUnifiedTopology: true,
 		useNewUrlParser: true,
 	})

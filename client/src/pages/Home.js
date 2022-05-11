@@ -12,6 +12,10 @@ export default function Home() {
 
 	useEffect(() => {
 		getAllProducts('http://localhost:5000/products');
+		fetch('http://localhost:5000/products/')
+			.then((res) => res.json())
+			.then((data) => console.log(data))
+			.catch((err) => console.log(err));
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 

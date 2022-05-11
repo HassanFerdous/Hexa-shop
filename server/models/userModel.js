@@ -21,6 +21,7 @@ const userSchema = mongoose.Schema(
 		// userType: {
 		// 	type: String,
 		// },
+		carts: [],
 	},
 	{
 		timeStamp: true,
