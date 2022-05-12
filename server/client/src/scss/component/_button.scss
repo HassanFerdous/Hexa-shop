@@ -1,0 +1,17 @@
+.btn {
+    font-size: 14px;
+    
+    &-outline {
+        border: 1px solid $white;
+        padding: 5px 15px;
+        color: $white;
+
+
+        &-black {
+            @extend .btn-outline;
+            border-color: $black;
+            background-color: transparent;
+            color: $black;
+        }
+    }
+}
