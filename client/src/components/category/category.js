@@ -47,14 +47,14 @@ export default function Category({ category, title, desc }) {
 								slidesPerView: 3,
 							},
 						}}>
-						{category.map(
+						{/* {category.map(
 							(categoryItem, idx) =>
 								idx <= 5 && (
 									<SwiperSlide key={idx}>
 										<Card product={categoryItem} />
 									</SwiperSlide>
 								)
-						)}
+						)} */}
 					</Swiper>
 				</div>
 			</div>

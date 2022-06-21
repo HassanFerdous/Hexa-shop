@@ -1,12 +1,7 @@
-import { useDispatch } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { cartActionCreator } from '../../redux/action';
 import { useNavigate } from 'react-router-dom';
 
 function Card({ product }) {
 	const { title, img, price, rating = 5 } = product;
-	const dispatch = useDispatch();
-	const { addItemToCart } = bindActionCreators(cartActionCreator, dispatch);
 	let navigate = useNavigate();
 
 	const handleClick = () => {
@@ -26,11 +21,7 @@ function Card({ product }) {
 					<button className='card-btn'>
 						<img src='/assets/svgs/star.svg' alt='star' />
 					</button>
-					<button
-						className='card-btn'
-						onClick={() => {
-							addItemToCart(product);
-						}}>
+					<button className='card-btn'>
 						<img src='/assets/svgs/shopping-bag.svg' alt='bag' />
 					</button>
 				</div>

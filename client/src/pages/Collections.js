@@ -1,20 +1,8 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { bindActionCreators } from 'redux';
 import Banner from '../components/banner/banner';
-import Card from '../components/card/card';
-import { productActionCreator } from '../redux/action';
+// import Card from '../components/card/card';
 
 export default function Collections() {
-	const collection = useSelector((state) => state.products);
-	const dispatch = useDispatch();
-	const { getAllProducts } = bindActionCreators(productActionCreator, dispatch);
-
-	useEffect(() => {
-		getAllProducts('http://localhost:5000/products');
-		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, []);
 	return (
 		<>
 			<Banner
@@ -29,9 +17,9 @@ export default function Collections() {
 						<p className='collection__desc'>Check out all of our products.</p>
 					</div>
 					<div className='collection__grid'>
-						{collection.map((item, idx) => (
+						{/* {collection.map((item, idx) => (
 							<Card key={idx} product={item} />
-						))}
+						))} */}
 					</div>
 					<div className='collection-pagination'>
 						<Link to='#'>1</Link>

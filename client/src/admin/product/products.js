@@ -1,46 +1,17 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import AddProductModal from './addProduct';
 import EditProduct from './editProduct';
-import { bindActionCreators } from 'redux';
-import { useDispatch, useSelector } from 'react-redux';
-import { productActionCreator } from '../../redux/action';
 
 export default function AdminProducts() {
 	const [isOpen, setIsOpen] = useState(false);
-	const [product, setProduct] = useState(null);
 	const [newProductModal, setNewProductModal] = useState(false);
 
-	const products = useSelector((state) => {
-		return state.products;
-	});
-
-	const dispatch = useDispatch();
-	let { getAllProducts } = bindActionCreators(productActionCreator, dispatch);
-
-	const openModal = (id) => {
-		setIsOpen(true);
-		let currentProduct = products.find((product) => product._id === id);
-		setProduct(currentProduct);
-		dispatchAction();
-	};
-
-	const deleteProduct = async (id) => {
-		try {
-			await axios.delete(`http://localhost:5000/products/${id}`);
-		} catch (error) {
-			console.log('failed to delete product');
-		}
-		dispatchAction();
-	};
-
-	const dispatchAction = () => {
-		getAllProducts('http://localhost:5000/products');
-	};
+	// const openModal = (id) => {
+	// 	setIsOpen(true);
+	// };
 
 	useEffect(() => {
-		dispatchAction();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
@@ -96,7 +67,7 @@ export default function AdminProducts() {
 							</div>
 						</div>
 
-						{products.map((product, idx) => {
+						{/* {products.map((product, idx) => {
 							return (
 								<div className='table-row product' key={idx}>
 									<div className='table-data product__id'>
@@ -131,24 +102,19 @@ export default function AdminProducts() {
 												to='#'>
 												Edit
 											</Link>
-											<Link
-												className='product-action__remove'
-												to='#'
-												onClick={() => deleteProduct(product._id)}>
+											<Link className='product-action__remove' to='#'>
 												Delete
 											</Link>
 										</div>
 									</div>
 								</div>
 							);
-						})}
+						})} */}
 					</div>
 				</div>
 			</div>
-			{isOpen ? <EditProduct isOpen={setIsOpen} product={product} updateProduct={dispatchAction} /> : null}
-			{newProductModal ? (
-				<AddProductModal setNewProductModal={setNewProductModal} updateProduct={dispatchAction} />
-			) : null}
+			{isOpen ? <EditProduct isOpen={setIsOpen} /> : null}
+			{newProductModal ? <AddProductModal setNewProductModal={setNewProductModal} /> : null}
 		</div>
 	);
 }

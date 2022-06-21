@@ -1,29 +1,8 @@
-import Explore from '../components/sections/explore';
-import { useLocation } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import { fetchData } from '../utilities/utils';
-import { bindActionCreators } from 'redux';
-import { useDispatch } from 'react-redux';
-import { cartActionCreator } from '../redux/action';
-
 export default function Product() {
-	const rating = 5;
-	let [product, setProduct] = useState(null);
-	let location = useLocation();
-	let productId = location.pathname.split('/')[2];
-	const dispatch = useDispatch();
-	const { addItemToCart, incrementQuantity, decrementQuantity } = bindActionCreators(cartActionCreator, dispatch);
-
-	useEffect(() => {
-		(async () => {
-			let response = await fetchData(`http://localhost:5000/products/${productId}`);
-			setProduct(response.product);
-		})();
-	}, [productId]);
-
 	return (
 		<>
-			{product ? (
+			<h2>Product page</h2>
+			{/* {product ? (
 				<div className='pdp-wrapper'>
 					<section className='pdp'>
 						<div className='container pdp__grid'>
@@ -75,7 +54,7 @@ export default function Product() {
 				</div>
 			) : (
 				'product not found'
-			)}
+			)} */}
 		</>
 	);
 }
