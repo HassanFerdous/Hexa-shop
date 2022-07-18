@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom';
 import Banner from '../components/banner/banner';
-// import Card from '../components/card/card';
+import { useGetProductQuery } from '../redux/slices/apiSlice';
+import Card from '../components/card/card';
 
 export default function Collections() {
+	const { data, isLoading, isSuccess } = useGetProductQuery();
 	return (
 		<>
 			<Banner
@@ -17,9 +19,8 @@ export default function Collections() {
 						<p className='collection__desc'>Check out all of our products.</p>
 					</div>
 					<div className='collection__grid'>
-						{/* {collection.map((item, idx) => (
-							<Card key={idx} product={item} />
-						))} */}
+						{isLoading && 'loading'}
+						{isSuccess && data.products.map((item, idx) => <Card key={idx} product={item} />)}
 					</div>
 					<div className='collection-pagination'>
 						<Link to='#'>1</Link>

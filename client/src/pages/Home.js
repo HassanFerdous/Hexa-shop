@@ -6,18 +6,18 @@ export default function Home() {
 		<div className='home'>
 			<Hero />
 			<Category
-				// category={category}
+				category='men'
 				title="Men's Latest"
 				desc='Details to details is what makes Hexashop different from the other themes.'
 			/>
 
 			<Category
-				// category={category}
+				category='women'
 				title="Women's Latest"
 				desc='Details to details is what makes Hexashop different from the other themes.'
 			/>
 			<Category
-				// category={category}
+				category='kid'
 				title="Kid's Latest"
 				desc='Details to details is what makes Hexashop different from the other themes.'
 			/>

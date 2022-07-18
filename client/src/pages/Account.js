@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchData } from '../utilities/utils';
 import jwt_decode from 'jwt-decode';
-import { setAuthenticatedUser } from '../redux/reducer/user/userAction';
 import { useNavigate } from 'react-router-dom';
 
 function Account() {
@@ -32,7 +31,6 @@ function Account() {
 		e.preventDefault();
 		navigate('/', { replace: true });
 		localStorage.removeItem('access_token');
-		dispatch(setAuthenticatedUser(null));
 	};
 
 	return (

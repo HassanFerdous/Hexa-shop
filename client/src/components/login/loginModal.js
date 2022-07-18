@@ -3,7 +3,6 @@ import useModal from '../../hooks/modal';
 import { useCallback, useState } from 'react';
 import { postData } from '../../utilities/utils';
 import { useDispatch } from 'react-redux';
-import { setAuthenticatedUser } from '../../redux/reducer/user/userAction';
 import { useNavigate } from 'react-router-dom';
 
 const LoginModal = ({ hideModal }) => {
@@ -71,7 +70,6 @@ const LoginModal = ({ hideModal }) => {
 			});
 
 			if (response.token) {
-				dispatch(setAuthenticatedUser(response.token));
 				setLoginFormData({ email: '', password: '' });
 				navigate('/account', { replace: true });
 				hideModal();
