@@ -47,4 +47,12 @@
             }
         }
     }
+
+    .swiper-slide {
+        height: auto !important;
+
+        .card {
+            height: 100%;
+        }
+    }
 }

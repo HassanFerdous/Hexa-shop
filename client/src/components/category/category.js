@@ -7,7 +7,8 @@ import { useGetProductQuery } from '../../redux/slices/apiSlice';
 
 SwiperCore.use([Navigation]);
 
-export default function Category({ category, title, desc }) {
+export default function CategorySlider({ category, title, desc }) {
+	console.log(category);
 	const navPrevRef = useRef(null);
 	const navNextRef = useRef(null);
 
@@ -53,14 +54,19 @@ export default function Category({ category, title, desc }) {
 									slidesPerView: 3,
 								},
 							}}>
-							{data.products.map(
-								(categoryItem, idx) =>
-									idx <= 5 && (
-										<SwiperSlide key={idx}>
-											<Card product={categoryItem} />
-										</SwiperSlide>
-									)
-							)}
+							{data.products
+								.map((product) => {
+									return { ...product, category: product.category.split(',').map((item) => item.trim()) };
+								})
+								.filter((product) => product.category.indexOf(category) !== -1)
+								.map(
+									(categoryItem, idx) =>
+										idx <= 5 && (
+											<SwiperSlide key={idx}>
+												<Card product={categoryItem} />
+											</SwiperSlide>
+										)
+								)}
 						</Swiper>
 					)}
 				</div>

@@ -1,11 +1,23 @@
 import { useParams } from 'react-router-dom';
 import { useGetProductByIdQuery } from '../redux/slices/apiSlice';
+import CategoryCollection from './CollectionByCategory';
 
 export default function Product() {
-	let { id } = useParams();
+	let { param } = useParams();
+	let isProductId = new RegExp('^[0-9a-fA-F]{24}$').test(param);
+
+	if (!isProductId) {
+		return <CategoryCollection category={param} />;
+	}
+
+	return <SingleProduct id={param} />;
+}
+
+function SingleProduct({ id }) {
 	const { data, isLoading, isSuccess } = useGetProductByIdQuery(id);
 	return (
 		<>
+			{isLoading && <h2>Loading</h2>}
 			{isSuccess ? (
 				<div className='pdp-wrapper'>
 					<section className='pdp'>

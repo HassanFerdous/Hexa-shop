@@ -25,7 +25,7 @@ export default function Hero() {
 								</div>
 								<div className='hero-card__content-hover'>
 									<h3 className='hero-card__title'>Women</h3>
-									<Link to='#' className='btn btn-outline'>
+									<Link to='/products/women' className='btn btn-outline'>
 										Discover More
 									</Link>
 								</div>
@@ -35,12 +35,12 @@ export default function Hero() {
 							<img src='/assets/images/hero-2.jpg' alt='' />
 							<div className='hero-card__top'>
 								<div className='hero-card__content'>
-									<h3 className='hero-card__title'>Women</h3>
-									<p>Best Clothes For Women</p>
+									<h3 className='hero-card__title'>Men</h3>
+									<p>Best Clothes For Men</p>
 								</div>
 								<div className='hero-card__content-hover'>
-									<h3 className='hero-card__title'>Women</h3>
-									<Link to='#' className='btn btn-outline'>
+									<h3 className='hero-card__title'>Men</h3>
+									<Link to='/products/men' className='btn btn-outline'>
 										Discover More
 									</Link>
 								</div>
@@ -50,12 +50,12 @@ export default function Hero() {
 							<img src='/assets/images/hero-3.jpg' alt='' />
 							<div className='hero-card__top'>
 								<div className='hero-card__content'>
-									<h3 className='hero-card__title'>Women</h3>
-									<p>Best Clothes For Women</p>
+									<h3 className='hero-card__title'>Kid</h3>
+									<p>Best Clothes For Kid</p>
 								</div>
 								<div className='hero-card__content-hover'>
-									<h3 className='hero-card__title'>Women</h3>
-									<Link to='#' className='btn btn-outline'>
+									<h3 className='hero-card__title'>Kid</h3>
+									<Link to='/products/kid' className='btn btn-outline'>
 										Discover More
 									</Link>
 								</div>
@@ -65,12 +65,12 @@ export default function Hero() {
 							<img src='/assets/images/hero-4.jpg' alt='' />
 							<div className='hero-card__top'>
 								<div className='hero-card__content'>
-									<h3 className='hero-card__title'>Women</h3>
-									<p>Best Clothes For Women</p>
+									<h3 className='hero-card__title'>Summer</h3>
+									<p>Best Clothes For Summer</p>
 								</div>
 								<div className='hero-card__content-hover'>
-									<h3 className='hero-card__title'>Women</h3>
-									<Link to='#' className='btn btn-outline'>
+									<h3 className='hero-card__title'>Summer</h3>
+									<Link to='/products/summer' className='btn btn-outline'>
 										Discover More
 									</Link>
 								</div>
