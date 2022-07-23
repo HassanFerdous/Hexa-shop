@@ -14,7 +14,7 @@ export default function Navbar({ isNavOpen }) {
 	};
 
 	return (
-		<nav className={`navbar ${isNavOpen ? 'navbar--open' : ''}`}>
+		<nav className={`justify-content-end navbar ${isNavOpen ? 'navbar--open' : ''}`}>
 			<ul className='navbar__list'>
 				<li className='navbar__item'>
 					<Link to='/' className='navbar__link'>

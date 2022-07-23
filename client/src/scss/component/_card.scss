@@ -1,6 +1,12 @@
 .card {
     display: grid;
     grid-template-rows: 1fr auto;
+    min-width: inherit;
+    word-wrap: break-word;
+    background-color: transparent;
+    background-clip: border-box;
+    border: none;
+    border-radius: 0;
 
     &__thumb {
         position: relative;
