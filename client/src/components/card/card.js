@@ -1,11 +1,17 @@
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { addItemToCart } from '../../redux/slices/cartSlice';
 
 function Card({ product }) {
 	const { title, img, price, rating = 5 } = product;
 	let navigate = useNavigate();
-
+	const dispatch = useDispatch();
 	const handleClick = () => {
 		navigate(`/products/${product._id}`, { replace: true });
+	};
+
+	const addToCart = () => {
+		dispatch(addItemToCart(product));
 	};
 
 	return (
@@ -31,7 +37,9 @@ function Card({ product }) {
 				</div>
 				<p className='card__price'>${price || 0}</p>
 				{/* <div>{product.category}</div> */}
-				<button className='card__atcBtn'>Add to cart</button>
+				<button className='card__atcBtn' onClick={addToCart}>
+					Add to cart
+				</button>
 			</div>
 		</div>
 	);

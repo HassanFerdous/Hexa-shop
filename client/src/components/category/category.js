@@ -8,7 +8,6 @@ import { useGetProductQuery } from '../../redux/slices/apiSlice';
 SwiperCore.use([Navigation]);
 
 export default function CategorySlider({ category, title, desc }) {
-	console.log(category);
 	const navPrevRef = useRef(null);
 	const navNextRef = useRef(null);
 
