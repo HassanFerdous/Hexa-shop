@@ -17,7 +17,7 @@ router.get('/', getProducts);
 router.get('/:id', getSingleProduct);
 
 //add products
-router.post('/', upload.single('img'), addProduct);
+router.post('/new', upload.single('img'), addProduct);
 
 //update products
 router.put('/:id', updateProduct);

@@ -1,174 +1,164 @@
-// import React, { useEffect, useState } from 'react';
-// import { useDispatch, useSelector } from 'react-redux';
-// import '../style/bootstrap.min.css';
-// import { useNavigate, useParams } from 'react-router-dom';
-// import Loader from '../../components/Loader';
-// import { getProducts } from '../../redux/apiCalls';
-// import { userRequest } from '../../requestMethod';
+import React, { useState } from 'react';
+import '../style/bootstrap.min.css';
+import { useGetProductByIdQuery } from '../../redux/slices/apiSlice';
 
-// export default function EditProduct() {
-// 	const [productData, setProductData] = useState({
-// 		title: '',
-// 		description: '',
-// 		price: '',
-// 		categories: '',
-// 		inStock: '',
-// 		color: '',
-// 		size: '',
-// 	});
-// 	const [newFile, setNewFile] = useState(false);
-// 	const [previewFileUri, setPreviewFileUri] = useState(null);
-// 	let navigate = useNavigate();
-// 	const dispatch = useDispatch();
-// 	const params = useParams();
+export default function EditProduct({ showModal, id }) {
+	const [productData, setProductData] = useState({
+		title: '',
+		description: '',
+		price: '',
+		categories: '',
+		inStock: '',
+		color: '',
+		size: '',
+	});
+	const [newFile, setNewFile] = useState(false);
+	const [previewFileUri, setPreviewFileUri] = useState(null);
 
-// 	let product = useSelector((state) => state.productReducer.products.find((p) => p._id === params.id));
+	const { data, isLoading, isSuccess, isError } = useGetProductByIdQuery(id);
 
-// 	useEffect(() => {
-// 		getProducts(dispatch);
-// 	}, [dispatch]);
+	const handleFile = (target) => {
+		let file = target.files[0];
+		if (file) {
+			setProductData({ ...productData, [target.name]: file });
+			setNewFile(file);
+			const fileReader = new FileReader();
+			fileReader.readAsDataURL(file);
+			fileReader.addEventListener('load', function () {
+				setPreviewFileUri(this.result);
+			});
+		}
+	};
 
-// 	useEffect(() => {
-// 		if (product) {
-// 			let { title, description, img, categories, price, size, color, inStock } = product;
-// 			setProductData({ title, description, img, price, categories, size, color, inStock });
-// 		}
-// 	}, [product]);
+	const handleChange = (e) => {
+		setProductData({ ...productData, [e.target.name]: e.target.value });
+	};
 
-// 	const handleFile = (target) => {
-// 		let file = target.files[0];
-// 		if (file) {
-// 			setProductData({ ...productData, [target.name]: file });
-// 			setNewFile(file);
-// 			const fileReader = new FileReader();
-// 			fileReader.readAsDataURL(file);
-// 			fileReader.addEventListener('load', function () {
-// 				setPreviewFileUri(this.result);
-// 			});
-// 		}
-// 	};
+	// const handleProductSubmit = (e) => {
+	// 	e.preventDefault();
+	// 	let formData = new FormData();
 
-// 	const handleChange = (e) => {
-// 		setProductData({ ...productData, [e.target.name]: e.target.value });
-// 	};
+	// 	for (let [key, value] of Object.entries(productData)) {
+	// 		formData.append(key, value);
+	// 	}
 
-// 	const handleProductSubmit = (e) => {
-// 		e.preventDefault();
-// 		let formData = new FormData();
+	// 	let updateProduct = async () => {
+	// 		try {
+	// 			await userRequest.put(`/products/${params.id}`, formData);
+	// 			getProducts(dispatch);
+	// 		} catch (error) {
+	// 			console.log(error);
+	// 		}
+	// 	};
 
-// 		for (let [key, value] of Object.entries(productData)) {
-// 			formData.append(key, value);
-// 		}
+	// 	updateProduct();
+	// 	navigate('/admin/products');
+	// };
 
-// 		let updateProduct = async () => {
-// 			try {
-// 				await userRequest.put(`/products/${params.id}`, formData);
-// 				getProducts(dispatch);
-// 			} catch (error) {
-// 				console.log(error);
-// 			}
-// 		};
+	return (
+		<>
+			<div className='edit-product'>
+				{isLoading && <h1>Loading</h1>}
+				{isError && <h1>Something went wrong</h1>}
 
-// 		updateProduct();
-// 		navigate('/admin/products');
-// 	};
+				{isSuccess && (
+					<form encType='multipart/form-data' style={{ padding: '20px' }}>
+						<h2>Edit product</h2>
+						<input
+							className='my-2 form-control'
+							type='text'
+							onChange={handleChange}
+							name='title'
+							placeholder='Title'
+							value={data.product.title}
+						/>
+						<input
+							className='my-2 form-control'
+							type='text'
+							onChange={handleChange}
+							name='description'
+							placeholder='description'
+							value={data.product.desc}
+						/>
+						<div className='d-flex align-items-center justify-content-between my-2 px-2 py-3 bg-white file-group form-group'>
+							<input
+								style={{ opacity: 0, visibility: 'hidden', position: 'absolute' }}
+								id='edit-file'
+								className='form-control'
+								type='file'
+								onChange={(e) => handleFile(e.target)}
+								name='img'
+								placeholder='img'
+							/>
 
-// 	return (
-// 		<>
-// 			{product ? (
-// 				<div className='content' style={{ minHeight: '100vh', background: '#9fcaff54' }}>
-// 					<form onSubmit={handleProductSubmit} encType='multipart/form-data' style={{ padding: '20px' }}>
-// 						<input
-// 							className='my-2 form-control'
-// 							type='text'
-// 							onChange={handleChange}
-// 							name='title'
-// 							placeholder='Title'
-// 							value={productData.title}
-// 						/>
-// 						<input
-// 							className='my-2 form-control'
-// 							type='text'
-// 							onChange={handleChange}
-// 							name='description'
-// 							placeholder='description'
-// 							value={productData.description}
-// 						/>
-// 						<div className='d-flex align-items-center justify-content-between my-2 px-2 py-3 bg-white file-group form-group'>
-// 							<input
-// 								style={{ opacity: 0, visibility: 'hidden', position: 'absolute' }}
-// 								id='edit-file'
-// 								className='form-control'
-// 								type='file'
-// 								onChange={(e) => handleFile(e.target)}
-// 								name='img'
-// 								placeholder='img'
-// 							/>
+							{!newFile ? (
+								<div className='uploaded-files'>
+									<div className='uploaded-file'>
+										{/* <button>&times;</button> */}
+										<img src={`/assets/images/${data.product.img}`} alt='' />
+									</div>
+								</div>
+							) : (
+								<div>
+									<img style={{ width: '40px', height: '40px' }} src={`${previewFileUri}`} alt='' />
+								</div>
+							)}
+							<label className='btn btn-primary' htmlFor='edit-file'>
+								Add new image
+							</label>
+						</div>
+						<input
+							className='my-2 form-control'
+							type='number'
+							onChange={handleChange}
+							name='price'
+							placeholder='price'
+							value={data.product.price}
+						/>
 
-// 							{!newFile ? (
-// 								<div className='uploaded-files'>
-// 									<div className='uploaded-file'>
-// 										{/* <button>&times;</button> */}
-// 										<img src={`/images/${productData.img}`} alt='' />
-// 									</div>
-// 								</div>
-// 							) : (
-// 								<div>
-// 									<img style={{ width: '40px', height: '40px' }} src={`${previewFileUri}`} alt='' />
-// 								</div>
-// 							)}
-// 							<label className='btn btn-primary' htmlFor='edit-file'>
-// 								Add new image
-// 							</label>
-// 						</div>
-// 						<input
-// 							className='my-2 form-control'
-// 							type='number'
-// 							onChange={handleChange}
-// 							name='price'
-// 							placeholder='price'
-// 							value={productData.price}
-// 						/>
+						<input
+							className='my-2 form-control'
+							type='text'
+							onChange={handleChange}
+							name='color'
+							placeholder='Colors'
+							// value={data.product.color}
+							value={'color-1, color-2'}
+						/>
+						<input
+							className='my-2 form-control'
+							type='text'
+							onChange={handleChange}
+							name='categories'
+							placeholder='Categories'
+							value={data.product.category}
+						/>
+						<input
+							className='my-2 form-control'
+							type='text'
+							onChange={handleChange}
+							name='size'
+							placeholder='Sizes'
+							value='sm'
+						/>
 
-// 						<input
-// 							className='my-2 form-control'
-// 							type='text'
-// 							onChange={handleChange}
-// 							name='color'
-// 							placeholder='Colors'
-// 							value={productData.color}
-// 						/>
-// 						<input
-// 							className='my-2 form-control'
-// 							type='text'
-// 							onChange={handleChange}
-// 							name='categories'
-// 							placeholder='Categories'
-// 							value={productData.categories}
-// 						/>
-// 						<input
-// 							className='my-2 form-control'
-// 							type='text'
-// 							onChange={handleChange}
-// 							name='size'
-// 							placeholder='Sizes'
-// 							value={product.size}
-// 						/>
-
-// 						<input
-// 							className='my-2 form-control'
-// 							type='text'
-// 							onChange={handleChange}
-// 							name='inStock'
-// 							placeholder='InStock'
-// 							value={productData.inStock}
-// 						/>
-// 						<input className='m-2 btn btn-primary' type='submit' value='UPDATE PRODUCT' />
-// 					</form>
-// 				</div>
-// 			) : (
-// 				<Loader />
-// 			)}
-// 		</>
-// 	);
-// }
+						<input
+							className='my-2 form-control'
+							type='text'
+							onChange={handleChange}
+							name='inStock'
+							placeholder='InStock'
+							value={data.product.inStock}
+						/>
+						<div className='text-left form-group' style={{ textAlign: 'left' }}>
+							<input className='m-2 btn btn-primary' type='submit' value='UPDATE' />
+							<button className='m-2 btn btn-danger' type='button' onClick={() => showModal(false)}>
+								Cancel
+							</button>
+						</div>
+					</form>
+				)}
+			</div>
+		</>
+	);
+}

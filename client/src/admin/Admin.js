@@ -45,7 +45,7 @@ export default function Admin() {
 			<div className={`sidebar pe-4 pb-3 ${showSidebar && 'open'}`}>
 				<nav className='navbar bg-light navbar-light'>
 					<Link to='#' className='navbar-brand mx-4 mb-3'>
-						<h3 className='text-primary'>DASHMIN</h3>
+						<h3 className='text-primary'>Hexa admin</h3>
 					</Link>
 					<div className='d-flex align-items-center ms-4 mb-4'>
 						<div className='position-relative'>

@@ -5,7 +5,7 @@ const auth = require('../middleware/auth');
 const router = express.Router();
 
 //get-all user
-router.get('admin/users', getAllUser);
+router.get('/users', getAllUser);
 
 //login user
 router.post('/signin', signIn);

@@ -21,6 +21,10 @@ const productSchema = mongoose.Schema(
 			type: Boolean,
 			default: true,
 		},
+		category: {
+			type: String,
+			default: 'fashion',
+		},
 
 		inStock: {
 			type: Number,
