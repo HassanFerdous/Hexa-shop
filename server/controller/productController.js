@@ -1,4 +1,7 @@
 const Product = require('../models/productModel');
+const fs = require('fs');
+const path = require('path');
+
 //get-all
 async function getProducts(req, res, next) {
 	try {
@@ -68,8 +71,16 @@ async function updateProduct(req, res, next) {
 //delete
 async function deleteProduct(req, res, next) {
 	let id = req.params.id;
+
 	try {
-		let rmProduct = await Product.deleteOne({ _id: id });
+		let { img } = await Product.findById(id);
+		await Product.deleteOne({ _id: id });
+		if (img) {
+			fs.unlink(path.join(__dirname + `../../../client/public/assets/images/${img}`), (err) => {
+				if (err) throw err;
+				console.log(path.join(__dirname + `../../../client/public/assets/images/${img}`) + ' deleted successfully');
+			});
+		}
 		res.status(200).json({
 			msg: 'product deleted successfully',
 		});
