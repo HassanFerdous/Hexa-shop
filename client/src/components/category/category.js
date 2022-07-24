@@ -30,7 +30,7 @@ export default function CategorySlider({ category, title, desc }) {
 							<img src='/assets/svgs/angle-right.svg' alt='' />
 						</button>
 					</div>
-					{isLoading && 'Loading'}
+					{isLoading && <h1>Loading...</h1>}
 
 					{isSuccess && (
 						<Swiper

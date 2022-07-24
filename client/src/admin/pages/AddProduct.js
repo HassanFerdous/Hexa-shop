@@ -7,7 +7,7 @@ export default function AddProduct({ showModal }) {
 
 	const [formData, setFormData] = useState({
 		title: '',
-		description: '',
+		desc: '',
 		price: '',
 		color: '',
 		category: '',
@@ -25,11 +25,14 @@ export default function AddProduct({ showModal }) {
 
 		try {
 			await addProduct(data);
-			setFormData((prev) => {
-				for (let [key] of Object.entries(prev)) {
-					if (key === 'img') return;
-					prev[key] = '';
-				}
+			showModal(false);
+			setFormData({
+				title: '',
+				desc: '',
+				price: '',
+				color: '',
+				size: '',
+				inStock: '',
 			});
 		} catch (err) {
 			console.log(err);
@@ -44,13 +47,21 @@ export default function AddProduct({ showModal }) {
 		<div className='new-product-modal'>
 			<form encType='multipart/form-data' style={{ padding: '20px' }} onSubmit={handleSubmit}>
 				<h2 className='m-2'>New Product</h2>
-				<input className='m-2 form-control' type='text' onChange={handleChange} name='title' placeholder='Title' />
+				<input
+					className='m-2 form-control'
+					type='text'
+					onChange={handleChange}
+					name='title'
+					placeholder='Title'
+					value={formData.title}
+				/>
 				<input
 					className='m-2 form-control'
 					type='text'
 					onChange={handleChange}
 					name='desc'
 					placeholder='description'
+					value={formData.desc}
 				/>
 				<input
 					className='m-2 form-control'
@@ -66,9 +77,17 @@ export default function AddProduct({ showModal }) {
 					onChange={handleChange}
 					name='price'
 					placeholder='price'
+					value={formData.price}
 				/>
 
-				<input className='m-2 form-control' type='text' onChange={handleChange} name='color' placeholder='Colors' />
+				<input
+					className='m-2 form-control'
+					type='text'
+					onChange={handleChange}
+					name='color'
+					placeholder='Colors'
+					value={formData.color}
+				/>
 				<input
 					className='m-2 form-control'
 					type='text'
@@ -76,7 +95,14 @@ export default function AddProduct({ showModal }) {
 					name='category'
 					placeholder='Categories'
 				/>
-				<input className='m-2 form-control' type='text' onChange={handleChange} name='size' placeholder='Sizes' />
+				<input
+					className='m-2 form-control'
+					type='text'
+					onChange={handleChange}
+					name='size'
+					placeholder='Sizes'
+					value={formData.size}
+				/>
 
 				<input
 					className='m-2 form-control'
@@ -84,6 +110,7 @@ export default function AddProduct({ showModal }) {
 					onChange={handleChange}
 					name='inStock'
 					placeholder='InStock'
+					value={formData.inStock}
 				/>
 				<div className='text-left form-group' style={{ textAlign: 'left' }}>
 					<input className='m-2 btn btn-primary' type='submit' value='ADD PRODUCT' />

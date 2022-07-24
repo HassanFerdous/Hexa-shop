@@ -8,7 +8,7 @@ import EditProduct from './EditProduct';
 function Products() {
 	const [showModal, setShowModal] = useState(false);
 	const [editModal, setEditModal] = useState(false);
-	const [editProductId, setEditProductId] = useState(null);
+	const [editProduct, setEditProduct] = useState({});
 	const { isSuccess, isLoading, data, isError } = useGetProductQuery();
 	const [deleteProduct] = useDeleteProductMutation();
 
@@ -17,8 +17,10 @@ function Products() {
 	};
 
 	const handleEditProduct = (id) => {
-		setEditProductId(id);
 		setEditModal(true);
+		if (data.products) {
+			setEditProduct(data.products.find((product) => product._id === id));
+		}
 	};
 
 	return (
@@ -112,7 +114,7 @@ function Products() {
 					</button>
 				</div>
 				{showModal && <AddProduct showModal={setShowModal} />}
-				{editModal && <EditProduct showModal={setEditModal} id={editProductId} />}
+				{editModal && <EditProduct showModal={setEditModal} product={editProduct} />}
 			</div>
 		</div>
 	);

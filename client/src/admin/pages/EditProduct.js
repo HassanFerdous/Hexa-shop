@@ -1,21 +1,23 @@
 import React, { useState } from 'react';
+import { useEffect } from 'react';
+import { useUpdateProductMutation } from '../../redux/slices/apiSlice';
 import '../style/bootstrap.min.css';
-import { useGetProductByIdQuery } from '../../redux/slices/apiSlice';
+// import { useEffect } from 'react';
 
-export default function EditProduct({ showModal, id }) {
+export default function EditProduct({ showModal, product }) {
 	const [productData, setProductData] = useState({
 		title: '',
-		description: '',
+		desc: '',
 		price: '',
-		categories: '',
+		category: '',
 		inStock: '',
 		color: '',
 		size: '',
+		img: '',
 	});
 	const [newFile, setNewFile] = useState(false);
 	const [previewFileUri, setPreviewFileUri] = useState(null);
-
-	const { data, isLoading, isSuccess, isError } = useGetProductByIdQuery(id);
+	const [updateProduct] = useUpdateProductMutation();
 
 	const handleFile = (target) => {
 		let file = target.files[0];
@@ -34,35 +36,38 @@ export default function EditProduct({ showModal, id }) {
 		setProductData({ ...productData, [e.target.name]: e.target.value });
 	};
 
-	// const handleProductSubmit = (e) => {
-	// 	e.preventDefault();
-	// 	let formData = new FormData();
+	useEffect(() => {
+		setProductData({
+			title: product.title,
+			desc: product.desc,
+			price: product.price,
+			category: product.category,
+			inStock: product.inStock,
+			color: product.color,
+			size: product.size,
+			img: product.img,
+		});
+	}, [product]);
 
-	// 	for (let [key, value] of Object.entries(productData)) {
-	// 		formData.append(key, value);
-	// 	}
+	const handleProductSubmit = async (e) => {
+		e.preventDefault();
+		let formData = new FormData();
+		for (let [key, value] of Object.entries(productData)) {
+			formData.append(key, value);
+		}
 
-	// 	let updateProduct = async () => {
-	// 		try {
-	// 			await userRequest.put(`/products/${params.id}`, formData);
-	// 			getProducts(dispatch);
-	// 		} catch (error) {
-	// 			console.log(error);
-	// 		}
-	// 	};
-
-	// 	updateProduct();
-	// 	navigate('/admin/products');
-	// };
+		try {
+			await updateProduct({ id: product._id, data: productData });
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
 	return (
 		<>
 			<div className='edit-product'>
-				{isLoading && <h1>Loading</h1>}
-				{isError && <h1>Something went wrong</h1>}
-
-				{isSuccess && (
-					<form encType='multipart/form-data' style={{ padding: '20px' }}>
+				{product && (
+					<form encType='multipart/form-data' onSubmit={handleProductSubmit} style={{ padding: '20px' }}>
 						<h2>Edit product</h2>
 						<input
 							className='my-2 form-control'
@@ -70,15 +75,15 @@ export default function EditProduct({ showModal, id }) {
 							onChange={handleChange}
 							name='title'
 							placeholder='Title'
-							value={data.product.title}
+							value={productData.title}
 						/>
 						<input
 							className='my-2 form-control'
 							type='text'
 							onChange={handleChange}
-							name='description'
+							name='desc'
 							placeholder='description'
-							value={data.product.desc}
+							value={productData.desc}
 						/>
 						<div className='d-flex align-items-center justify-content-between my-2 px-2 py-3 bg-white file-group form-group'>
 							<input
@@ -95,7 +100,7 @@ export default function EditProduct({ showModal, id }) {
 								<div className='uploaded-files'>
 									<div className='uploaded-file'>
 										{/* <button>&times;</button> */}
-										<img src={`/assets/images/${data.product.img}`} alt='' />
+										<img src={`/assets/images/${productData.img}`} alt='' />
 									</div>
 								</div>
 							) : (
@@ -113,7 +118,7 @@ export default function EditProduct({ showModal, id }) {
 							onChange={handleChange}
 							name='price'
 							placeholder='price'
-							value={data.product.price}
+							value={productData.price}
 						/>
 
 						<input
@@ -122,16 +127,16 @@ export default function EditProduct({ showModal, id }) {
 							onChange={handleChange}
 							name='color'
 							placeholder='Colors'
-							// value={data.product.color}
-							value={'color-1, color-2'}
+							// value={productData.color}
+							value={productData.color}
 						/>
 						<input
 							className='my-2 form-control'
 							type='text'
 							onChange={handleChange}
-							name='categories'
+							name='category'
 							placeholder='Categories'
-							value={data.product.category}
+							value={productData.category}
 						/>
 						<input
 							className='my-2 form-control'
@@ -139,7 +144,7 @@ export default function EditProduct({ showModal, id }) {
 							onChange={handleChange}
 							name='size'
 							placeholder='Sizes'
-							value='sm'
+							value={productData.size}
 						/>
 
 						<input
@@ -148,7 +153,7 @@ export default function EditProduct({ showModal, id }) {
 							onChange={handleChange}
 							name='inStock'
 							placeholder='InStock'
-							value={data.product.inStock}
+							value={productData.inStock}
 						/>
 						<div className='text-left form-group' style={{ textAlign: 'left' }}>
 							<input className='m-2 btn btn-primary' type='submit' value='UPDATE' />

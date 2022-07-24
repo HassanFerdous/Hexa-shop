@@ -12,7 +12,7 @@ import { useEffect } from 'react';
 
 export default function App() {
 	let { pathname } = useLocation();
-	const user = true;
+	const user = false;
 	const [showHeader, setShowHeader] = useState(true);
 	useEffect(() => {
 		pathname.split('/')[1] === 'admin' && setShowHeader(false);

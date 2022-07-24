@@ -23,12 +23,21 @@ const productSchema = mongoose.Schema(
 		},
 		category: {
 			type: String,
-			default: 'fashion',
+			default: 'classic',
+		},
+
+		color: {
+			type: String,
+			default: '',
 		},
 
 		inStock: {
 			type: Number,
 			default: 1,
+		},
+		size: {
+			type: String,
+			default: '',
 		},
 	},
 	{

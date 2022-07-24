@@ -1,6 +1,6 @@
 .card {
     display: grid;
-    grid-template-rows: 1fr auto;
+    grid-template-rows: 280px auto;
     min-width: inherit;
     word-wrap: break-word;
     background-color: transparent;
@@ -8,23 +8,29 @@
     border: none;
     border-radius: 0;
 
+    @include media-breakpoint-up(lg) {
+        grid-template-rows: 320px auto;
+    }
+
+    @include media-breakpoint-up(xxl) {
+        grid-template-rows: 390px auto;
+    }
+
     &__thumb {
         position: relative;
-        picture,
+        
         img {
             height: 100%;
+            object-fit: cover;
+            object-position: top center;
         }
     }
 
     &__title {
-        font-size: 18px;
+        font-size: 16px;
         color: #2a2a2a;
-        font-weight: 500;
+        font-weight: normal;
         cursor: pointer;
-
-        @include media-breakpoint-up(lg) {
-            font-size: 22px;
-        }
     }
 
     &__row {
@@ -50,6 +56,15 @@
 
     &__img {
         cursor: pointer;
+        height: 100%;
+
+        > div {
+            height: 100%;
+        }
+        span {
+            height: 100%;
+            width: 100%;
+        }
 
         img {
             width: 100%;
@@ -121,8 +136,13 @@
         text-transform: uppercase;
         cursor: pointer;
         border-bottom: 1px solid $black;
-        font-weight: 500;
-        padding: 3px 0;
+        font-weight: normal;
         margin-top: rem(12px);
+        font-size: rem(14px);
+        line-height: 1;
     }
 }
+
+// .blur:not(.lazy-load-image-loaded) {
+//     filter: blur(2px);
+// }

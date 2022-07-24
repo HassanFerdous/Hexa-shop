@@ -1,6 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { addItemToCart } from '../../redux/slices/cartSlice';
+import LazyImg from '../lazyImage/LazyImg';
 
 function Card({ product }) {
 	const { title, img, price, rating = 5 } = product;
@@ -18,7 +19,7 @@ function Card({ product }) {
 		<div className='card'>
 			<div className='card__thumb'>
 				<picture className='card__img' onClick={handleClick}>
-					<img src={`/assets/images/${img}`} alt='' />
+					<LazyImg image={{ src: `/assets/images/${img}` }} />
 				</picture>
 			</div>
 

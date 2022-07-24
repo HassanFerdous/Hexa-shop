@@ -26,10 +26,18 @@ const hexaApi = createApi({
 			query: (id) => ({
 				url: `/products/${id}`,
 				method: 'DELETE',
-				id,
 			}),
 			invalidatesTags: ['Product'],
 		}),
+		updateProduct: builder.mutation({
+			query: (body) => ({
+				url: `/products/${body.id}`,
+				method: 'PUT',
+				body: body.data,
+			}),
+			invalidatesTags: ['Product'],
+		}),
+		//user
 		getAllUser: builder.query({
 			query: () => 'users',
 			providesTags: ['User'],
@@ -43,5 +51,6 @@ export const {
 	useGetAllUserQuery,
 	useAddProductMutation,
 	useDeleteProductMutation,
+	useUpdateProductMutation,
 } = hexaApi;
 export default hexaApi;
