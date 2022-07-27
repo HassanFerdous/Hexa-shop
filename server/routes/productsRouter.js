@@ -6,6 +6,7 @@ const {
 	updateProduct,
 	getSingleProduct,
 } = require('../controller/productController');
+const { verifyTokenAdmin } = require('../middleware/auth');
 const { upload } = require('../middleware/singleUpload');
 
 const router = express.Router();
@@ -17,12 +18,12 @@ router.get('/', getProducts);
 router.get('/:id', getSingleProduct);
 
 //add products
-router.post('/new', upload.single('img'), addProduct);
+router.post('/new', verifyTokenAdmin, upload.single('img'), addProduct);
 
 //update products
-router.put('/:id', updateProduct);
+router.put('/:id', verifyTokenAdmin, updateProduct);
 
 //delete product
-router.delete('/:id', deleteProduct);
+router.delete('/:id', verifyTokenAdmin, deleteProduct);
 
 module.exports = router;

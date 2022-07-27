@@ -1,11 +1,11 @@
 const express = require('express');
 const { getAllUser, register, signIn, updateUser, deleteUser, showUserInfo } = require('../controller/userController');
-const auth = require('../middleware/auth');
+const { verifyTokenAdmin, verifyTokenUser } = require('../middleware/auth');
 
 const router = express.Router();
 
 //get-all user
-router.get('/users', getAllUser);
+router.get('/users', verifyTokenAdmin, getAllUser);
 
 //login user
 router.post('/signin', signIn);
@@ -14,16 +14,15 @@ router.post('/signin', signIn);
 router.post('/register', register);
 
 //account-page
-router.get('/account/:id', auth, showUserInfo);
+router.get('/account/:id', verifyTokenUser, showUserInfo);
 
 //update user
-router.put('/account/:id', updateUser);
+router.put('/account/:id', verifyTokenUser, updateUser);
 
 //delete user
-router.delete('/account/:id', deleteUser);
+router.delete('/account/:id', verifyTokenAdmin, deleteUser);
 
-router.post('/welcome', auth, (req, res) => {
-	console.log(req.cookies);
+router.post('/welcome', verifyTokenUser, (req, res) => {
 	res.status(200).send('Welcome 🙌 ');
 });
 

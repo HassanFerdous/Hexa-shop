@@ -13,7 +13,7 @@ import { useSelector } from 'react-redux';
 
 export default function App() {
 	let { pathname } = useLocation();
-	const { currentUser, token } = useSelector((state) => state.user);
+	const { currentUser } = useSelector((state) => state.user);
 
 	const [showHeader, setShowHeader] = useState(true);
 	useEffect(() => {

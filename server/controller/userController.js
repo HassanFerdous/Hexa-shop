@@ -50,9 +50,13 @@ const signIn = async (req, res, next) => {
 			const user = await userModel.findOne({ email: email });
 			const matchPass = await bcrypt.compare(password, user.password);
 			if (matchPass) {
-				const token = jwt.sign({ username: user.name, email: user.email, id: user._id }, process.env.SECRET, {
-					expiresIn: '2h',
-				});
+				const token = jwt.sign(
+					{ username: user.name, email: user.email, id: user._id, isAdmin: user.isAdmin },
+					process.env.SECRET,
+					{
+						expiresIn: '2h',
+					}
+				);
 				const { password, ...othersInfo } = user._doc;
 				res.status(200).json({
 					user: othersInfo,

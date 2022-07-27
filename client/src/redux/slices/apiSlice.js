@@ -3,7 +3,17 @@ import { REHYDRATE } from 'redux-persist';
 
 const hexaApi = createApi({
 	reducerPath: 'hexaApi',
-	baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000/api/' }),
+	baseQuery: fetchBaseQuery({
+		baseUrl: 'http://localhost:5000/api/',
+		prepareHeaders: (headers, { getState }) => {
+			const token = getState().user.token;
+			if (token) {
+				headers.set('Authorization', `Bearer ${token}`);
+			}
+			return headers;
+		},
+	}),
+
 	extractRehydrationInfo(action, { reducerPath }) {
 		if (action.type === REHYDRATE && action.payload) {
 			return action.payload[reducerPath];
