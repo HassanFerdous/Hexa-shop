@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 
 const userSchema = mongoose.Schema(
 	{
-		name: {
+		username: {
 			type: String,
 			required: true,
 		},
@@ -15,12 +15,10 @@ const userSchema = mongoose.Schema(
 			type: String,
 			required: true,
 		},
-		token: {
+		isAdmin: {
 			type: String,
+			default: false,
 		},
-		// userType: {
-		// 	type: String,
-		// },
 		carts: [],
 	},
 	{

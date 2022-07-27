@@ -15,7 +15,7 @@ const hexaApi = createApi({
 		}),
 		addProduct: builder.mutation({
 			query: (body) => ({
-				url: '/products/new',
+				url: 'products/new',
 				method: 'POST',
 				body,
 			}),
@@ -24,23 +24,38 @@ const hexaApi = createApi({
 
 		deleteProduct: builder.mutation({
 			query: (id) => ({
-				url: `/products/${id}`,
+				url: `products/${id}`,
 				method: 'DELETE',
 			}),
 			invalidatesTags: ['Product'],
 		}),
 		updateProduct: builder.mutation({
-			query: (body) => ({
-				url: `/products/${body.id}`,
+			query: ({ id, data }) => ({
+				url: `products/${id}`,
 				method: 'PUT',
-				body: body.data,
+				body: data,
 			}),
 			invalidatesTags: ['Product'],
 		}),
+
 		//user
 		getAllUser: builder.query({
 			query: () => 'users',
 			providesTags: ['User'],
+		}),
+		signIn: builder.mutation({
+			query: (body) => ({
+				url: 'signin',
+				method: 'POST',
+				body,
+			}),
+		}),
+		register: builder.mutation({
+			query: (body) => ({
+				url: 'register',
+				method: 'POST',
+				body,
+			}),
 		}),
 	}),
 });
@@ -52,5 +67,7 @@ export const {
 	useAddProductMutation,
 	useDeleteProductMutation,
 	useUpdateProductMutation,
+	useSignInMutation,
+	useRegisterMutation,
 } = hexaApi;
 export default hexaApi;

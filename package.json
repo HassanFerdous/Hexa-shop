@@ -1,14 +1,11 @@
 {
   "dependencies": {
-    "@reduxjs/toolkit": "^1.8.2",
-    "bcrypt": "^5.0.1",
     "concurrently": "^7.1.0"
   },
   "name": "hexa-shop",
   "description": "",
   "version": "1.0.0",
   "main": "index.js",
-  "devDependencies": {},
   "scripts": {
     "server": "cd server && npm start",
     "start": "cd client && npm start",

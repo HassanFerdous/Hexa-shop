@@ -3,12 +3,21 @@ import './style/bootstrap.min.css';
 import './style/style.css';
 import { Link } from 'react-router-dom';
 // import { useDispatch } from 'react-redux';
+import { useRegisterMutation, useSignInMutation } from '../redux/slices/apiSlice';
 
 function LoginAdmin() {
-	// const dispatch = useDispatch();
 	let [userExist, setUserExist] = useState(true);
-	const [loginData, setLoginData] = useState({});
-	const [registerData, setRegisterData] = useState({});
+	const [loginData, setLoginData] = useState({
+		email: '',
+		password: '',
+	});
+	const [registerData, setRegisterData] = useState({
+		username: '',
+		email: '',
+		password: '',
+	});
+	const [signIn] = useSignInMutation();
+	const [register] = useRegisterMutation();
 
 	const handleChange = (type, target) => {
 		if (type === 'login') {
@@ -18,22 +27,37 @@ function LoginAdmin() {
 		}
 	};
 
-	const clearInputs = (e) => {
-		e.preventDefault();
-		setLoginData({});
-		setRegisterData({});
-		document.querySelectorAll('input').forEach((input) => (input.value = ''));
+	const clearInputs = () => {
+		setLoginData({
+			email: '',
+			password: '',
+		});
+		setRegisterData({
+			username: '',
+			email: '',
+			password: '',
+		});
 	};
 
-	// const handleLogin = (e) => {
-	// 	e.preventDefault();
-	// 	login(dispatch, loginData);
-	// };
+	const handleLogin = async (e) => {
+		e.preventDefault();
+		try {
+			await signIn(loginData).unwrap();
+			clearInputs();
+		} catch (error) {
+			console.log(error);
+		}
+	};
 
-	// const handleRegister = (e) => {
-	// 	e.preventDefault();
-	// 	console.log(loginData, registerData);
-	// };
+	const handleRegister = async (e) => {
+		e.preventDefault();
+		try {
+			await register(registerData).unwrap();
+			clearInputs();
+		} catch (error) {
+			console.log(error.message);
+		}
+	};
 
 	return (
 		<div className='admin-login'>
@@ -45,17 +69,18 @@ function LoginAdmin() {
 								<div className='d-flex align-items-center justify-content-between mb-3'>
 									<h3>Sign In</h3>
 								</div>
-								<form action='#'>
+								<form action='#' onSubmit={handleLogin}>
 									<div className='form-floating mb-3'>
 										<input
-											type='text'
+											type='email'
 											className='form-control'
 											id='floatingInput'
-											placeholder='Name'
-											name='username'
+											placeholder='Email'
+											name='email'
+											value={loginData?.email}
 											onChange={(e) => handleChange('login', e.target)}
 										/>
-										<label htmlFor='floatingInput'>Username</label>
+										<label htmlFor='floatingInput'>Email</label>
 									</div>
 									<div className='form-floating mb-4'>
 										<input
@@ -64,6 +89,7 @@ function LoginAdmin() {
 											id='floatingPassword'
 											placeholder='Password'
 											name='password'
+											value={loginData?.password}
 											onChange={(e) => handleChange('login', e.target)}
 										/>
 										<label htmlFor='floatingPassword'>Password</label>
@@ -103,7 +129,7 @@ function LoginAdmin() {
 								<div className='d-flex align-items-center justify-content-between mb-3'>
 									<h3>Sign Up</h3>
 								</div>
-								<form action='#'>
+								<form action='#' onSubmit={handleRegister}>
 									<div className='form-floating mb-3'>
 										<input
 											type='text'
@@ -111,6 +137,7 @@ function LoginAdmin() {
 											id='floatingInput2'
 											placeholder='Name'
 											name='username'
+											value={registerData?.username}
 											onChange={(e) => handleChange('register', e.target)}
 										/>
 										<label htmlFor='floatingInput2'>Username</label>
@@ -122,6 +149,7 @@ function LoginAdmin() {
 											id='floatingInput'
 											placeholder='name@example.com'
 											name='email'
+											value={registerData?.email}
 											onChange={(e) => handleChange('register', e.target)}
 										/>
 										<label htmlFor='floatingInput'>Email address</label>
@@ -133,6 +161,7 @@ function LoginAdmin() {
 											id='floatingPassword'
 											placeholder='Password'
 											name='password'
+											value={registerData?.password}
 											onChange={(e) => handleChange('register', e.target)}
 										/>
 										<label htmlFor='floatingPassword'>Password</label>

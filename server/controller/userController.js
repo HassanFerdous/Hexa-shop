@@ -15,8 +15,7 @@ const getAllUser = async (req, res, next) => {
 
 //post new user
 const register = async (req, res, next) => {
-	let { name, email, password } = req.body;
-
+	let { username, email, password } = req.body;
 	let oldUser = await getOldUser(email);
 
 	if (oldUser) {
@@ -25,20 +24,14 @@ const register = async (req, res, next) => {
 		});
 	}
 
-	if (name && email && password) {
+	if (username && email && password) {
 		const hashedPassword = await bcrypt.hash(password, 10);
 		let newUser = new userModel({ ...req.body, password: hashedPassword });
-
 		try {
-			const token = jwt.sign({ user_id: newUser._id, email: newUser.email }, process.env.SECRET, {
-				expiresIn: '2h',
-			});
-			newUser.token = token;
-
 			let user = await newUser.save();
-
+			const { password, ...othersInfo } = user._doc;
 			res.status(200).json({
-				user: user,
+				user: othersInfo,
 				message: 'successfully added new user',
 			});
 		} catch (err) {
@@ -55,32 +48,18 @@ const signIn = async (req, res, next) => {
 	if (email && password) {
 		try {
 			const user = await userModel.findOne({ email: email });
-			const checkPassword = await bcrypt.compare(password, user.password);
-			if (user && checkPassword) {
-				const token = jwt.sign({ user_id: user._id, email }, process.env.SECRET, {
+			const matchPass = await bcrypt.compare(password, user.password);
+			if (matchPass) {
+				const token = jwt.sign({ username: user.name, email: user.email, id: user._id }, process.env.SECRET, {
 					expiresIn: '2h',
 				});
-
-				//save new token
-				const updatedUserToken = await userModel.findOneAndUpdate({ _id: user._id }, { $set: { token: token } });
-
-				return res
-					.cookie('access_token', token, {
-						httpOnly: true,
-						maxAge: 2 * 60 * 60 * 1000,
-					})
-					.status(200)
-					.json({
-						message: 'user successfully logged in',
-						token,
-					});
-			} else {
-				res.status(500).json({
-					error: 'invalid password',
+				const { password, ...othersInfo } = user._doc;
+				res.status(200).json({
+					user: othersInfo,
+					token,
 				});
 			}
 		} catch (err) {
-			console.log('user is not found');
 			res.status(500).json({
 				error: err.message,
 			});
@@ -124,7 +103,6 @@ const deleteUser = async (req, res, next) => {
 
 async function getOldUser(email) {
 	let oldUser = await userModel.findOne({ email });
-
 	return oldUser;
 }
 

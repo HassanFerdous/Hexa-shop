@@ -9,15 +9,18 @@ import Admin from './admin/Admin';
 import LoginAdmin from './admin/loginAdmin';
 import { useState } from 'react';
 import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 export default function App() {
 	let { pathname } = useLocation();
-	const user = false;
+	const { currentUser, token } = useSelector((state) => state.user);
+
 	const [showHeader, setShowHeader] = useState(true);
 	useEffect(() => {
 		pathname.split('/')[1] === 'admin' && setShowHeader(false);
-		pathname.split('/')[1] === 'login-admin' && setShowHeader(false);
+		pathname.split('/')[1] === 'login' && setShowHeader(false);
 	}, [pathname]);
+
 	return (
 		<>
 			<div className='app'>
@@ -28,12 +31,12 @@ export default function App() {
 						<Route path='/' element={<Home />} />
 						<Route path='/products/' element={<Collections />} />
 						<Route path='/products/:param' element={<Product />} />
-						<Route path='/account' element={<Account />} />
-						<Route path='/admin/' element={user ? <Admin /> : <Navigate to={'/login-admin'} replace />}>
+						<Route path='/account' element={currentUser ? <Account /> : <Navigate to={'/login'} replace />} />
+						<Route path='/admin/' element={currentUser?.isAdmin ? <Admin /> : <Navigate to={'/login'} replace />}>
 							<Route path='client' element={<Outlet />}></Route>
 							<Route path='products' element={<Outlet />}></Route>
 						</Route>
-						<Route path='/login-admin' element={<LoginAdmin />} />
+						<Route path='/login' element={<LoginAdmin />} />
 					</Routes>
 				</div>
 
