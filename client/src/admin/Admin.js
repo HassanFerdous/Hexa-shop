@@ -1,4 +1,4 @@
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import './style/bootstrap.min.css';
 import './style/style.css';
 import { Outlet } from 'react-router-dom';
@@ -7,19 +7,18 @@ import Dashboard from './dashboard';
 import { useEffect } from 'react';
 import Clients from './pages/clients';
 import Products from './pages/products';
-// import { useSelector } from 'react-redux';
-// import { logout } from '../redux/slices/userSlice';
-// import { getProducts } from '../redux/apiCalls';
+import { useDispatch, useSelector } from 'react-redux';
+import { logOut } from '../redux/slices/authSlice';
 
 export default function Admin() {
 	const [showSidebar, setShowSidebar] = useState(false);
 	const [openProfileDropdown, setOpenProfileDropdown] = useState(false);
 	const { pathname } = useLocation();
 	const [path, setPath] = useState('');
+	const dispatch = useDispatch();
+	const navigate = useNavigate();
+	const { currentUser } = useSelector((state) => state.user);
 
-	// const dispatch = useDispatch();
-	// const user = useSelector((state) => state.user.currentUser);
-	// let navigate = useNavigate();
 	useEffect(() => {
 		let pageName = pathname.split('/')[2];
 		pageName ? setPath(pageName) : setPath('');
@@ -33,11 +32,11 @@ export default function Admin() {
 		target.classList.add('active');
 	}
 
-	// const userLogout = (e) => {
-	// 	e.preventDefault();
-	// 	dispatch(logout());
-	// 	navigate('/', { replace: true });
-	// };
+	const handleLogout = (e) => {
+		e.preventDefault();
+		dispatch(logOut());
+		navigate('/', { replace: true });
+	};
 
 	return (
 		<div className='container-xxl position-relative  p-0' style={{ minHeight: '100vh', background: '#9fcaff54' }}>
@@ -59,7 +58,7 @@ export default function Admin() {
 						</div>
 						<div className='ms-3'>
 							<h6 className='mb-0'>User</h6>
-							<span>Admin</span>
+							<span>{currentUser?.username}</span>
 						</div>
 					</div>
 					<div className='navbar-nav w-100' onClick={handleClick}>
@@ -220,7 +219,7 @@ export default function Admin() {
 								className='d-inline-flex align-items-center nav-link dropdown-toggle'
 								data-bs-toggle='dropdown'
 								onClick={() => setOpenProfileDropdown(!openProfileDropdown)}>
-								<span className='d-none d-lg-inline-flex'>Username</span>
+								<span className='d-none d-lg-inline-flex'>{currentUser?.username}</span>
 								<img
 									className='rounded-circle me-lg-2'
 									src={`/assets/images/profile.png`}
@@ -238,7 +237,7 @@ export default function Admin() {
 								<Link to='#' className='dropdown-item'>
 									Settings
 								</Link>
-								<Link to='#' className='dropdown-item'>
+								<Link to='#' className='dropdown-item' onClick={handleLogout}>
 									Log Out
 								</Link>
 							</div>

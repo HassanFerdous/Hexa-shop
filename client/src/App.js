@@ -17,8 +17,11 @@ export default function App() {
 
 	const [showHeader, setShowHeader] = useState(true);
 	useEffect(() => {
-		pathname.split('/')[1] === 'admin' && setShowHeader(false);
-		pathname.split('/')[1] === 'login' && setShowHeader(false);
+		if (pathname.split('/')[1].trim() === 'admin' || pathname.split('/')[1].trim() === 'login') {
+			setShowHeader(false);
+		} else {
+			setShowHeader(true);
+		}
 	}, [pathname]);
 
 	return (
@@ -26,7 +29,7 @@ export default function App() {
 			<div className='app'>
 				{showHeader && <Header />}
 
-				<div className='app-content'>
+				<div className={`app-content ${!showHeader ? 'headerHide' : ''}`}>
 					<Routes>
 						<Route path='/' element={<Home />} />
 						<Route path='/products/' element={<Collections />} />

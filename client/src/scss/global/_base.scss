@@ -21,6 +21,10 @@ body {
     @include media-breakpoint-up(lg) {
         padding-top: 100px;
     }
+
+    &.headerHide {
+        padding-top: 0;
+    }
 }
 
 .d-flex {

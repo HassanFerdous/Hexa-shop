@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import './style/bootstrap.min.css';
 import './style/style.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 // import { useDispatch } from 'react-redux';
 import { useRegisterMutation, useSignInMutation } from '../redux/slices/apiSlice';
 
@@ -16,6 +16,8 @@ function LoginAdmin() {
 		email: '',
 		password: '',
 	});
+	const navigate = useNavigate();
+
 	const [signIn] = useSignInMutation();
 	const [register] = useRegisterMutation();
 
@@ -39,11 +41,20 @@ function LoginAdmin() {
 		});
 	};
 
+	const redirectToPage = (isAdmin) => {
+		if (isAdmin) {
+			navigate('/admin', { replace: true });
+		} else {
+			navigate('/account', { replace: true });
+		}
+	};
+
 	const handleLogin = async (e) => {
 		e.preventDefault();
 		try {
-			await signIn(loginData).unwrap();
+			let { user } = await signIn(loginData).unwrap();
 			clearInputs();
+			redirectToPage(user.isAdmin);
 		} catch (error) {
 			console.log(error);
 		}
@@ -52,8 +63,9 @@ function LoginAdmin() {
 	const handleRegister = async (e) => {
 		e.preventDefault();
 		try {
-			await register(registerData).unwrap();
+			let { user } = await register(registerData).unwrap();
 			clearInputs();
+			redirectToPage(user.isAdmin);
 		} catch (error) {
 			console.log(error.message);
 		}

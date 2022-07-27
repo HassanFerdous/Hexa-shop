@@ -32,7 +32,9 @@ export default function Navbar({ isNavOpen }) {
 					</Link>
 				</li>
 				<li className='navbar__item'>
-					<span className='navbar__link'>Account</span>
+					<Link to='/account' className='navbar__link'>
+						Account
+					</Link>
 				</li>
 				<li className='navbar__item'>
 					<Link to='#' className='navbar__link'>
