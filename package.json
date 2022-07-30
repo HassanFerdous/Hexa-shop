@@ -8,7 +8,7 @@
     "node" : "14.18.2"
   },
   "scripts": {
-    "start": "node start",
+    "start": "node app.js",
     "server": "nodemon app.js",
     "client": "npm start --prefix client",
     "dev": "concurrently -r \"npm run server\" \"npm run client\"",
