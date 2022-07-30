@@ -2,11 +2,9 @@ import { Link } from 'react-router-dom';
 import useModal from '../../hooks/modal';
 import { useCallback, useState } from 'react';
 import { postData } from '../../utilities/utils';
-import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 const LoginModal = ({ hideModal }) => {
-	const dispatch = useDispatch();
 	const navigate = useNavigate();
 	//state
 	const { toggle } = useModal();
