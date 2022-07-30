@@ -44,7 +44,7 @@ export default function Navbar({ isNavOpen }) {
 				<li className='navbar__item'>
 					<Link to='#' className='cart-btn' onClick={() => setIsCartOpen(!isCartOpen)}>
 						<img src='/assets/svgs/shopping-bag1.svg' alt='' />
-						{cartItems.length ? <span className='cart-count'>{cartItems.length}</span> : null}
+						{cartItems?.length ? <span className='cart-count'>{cartItems?.length}</span> : null}
 					</Link>
 					{isCartOpen ? <Cart setIsCartOpen={setIsCartOpen} /> : null}
 				</li>
