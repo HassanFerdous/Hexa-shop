@@ -1,8 +1,20 @@
 {
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "server": "nodemon app.js",
+    "client": "npm start --prefix client",
+    "dev": "concurrently -r \"npm run server\" \"npm run client\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "dependencies": {
-    "concurrently": "^7.1.0",
     "axios": "^0.25.0",
     "bcrypt": "^5.0.1",
+    "concurrently": "^7.3.0",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
@@ -11,32 +23,5 @@
     "mongoose": "^6.1.7",
     "multer": "^1.4.4",
     "nodemon": "^2.0.15"
-  },
-
-  
-  "engines": {
-    "npm": "8.15.0",
-    "node": "14.18.2"
-  },
-  "name": "hexa-shop",
-  "description": "",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "start": "nodemon --watch server --exec node server/app.js",
-    "server": "nodemon server/app.js",
-    "client": "npm start --prefix client",
-    "dev": "concurrently -r \"npm run server\" \"npm start\"",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --force --prefix client"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/HassanFerdous/Hexa-shop.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/HassanFerdous/Hexa-shop/issues"
-  },
-  "homepage": "https://github.com/HassanFerdous/Hexa-shop#readme"
+  }
 }
