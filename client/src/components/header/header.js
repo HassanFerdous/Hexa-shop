@@ -1,6 +1,6 @@
 import Navbar from './navbar';
-import { Link } from 'react-router-dom';
-import { useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 const Header = () => {
 	const [navOpen, setNavOpen] = useState(false);
@@ -9,6 +9,12 @@ const Header = () => {
 		setNavOpen(!navOpen);
 		document.body.classList.toggle('nav-open');
 	};
+
+	let { pathname } = useLocation();
+
+	useEffect(() => {
+		setNavOpen(false);
+	}, [pathname]);
 
 	return (
 		<header className='header'>

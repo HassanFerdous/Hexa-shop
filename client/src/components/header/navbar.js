@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import Cart from '../cart/cart';
 import LoginModal from '../login/loginModal';
 
-export default function Navbar({ isNavOpen, setShowNav }) {
+export default function Navbar({ isNavOpen }) {
 	const [isCartOpen, setIsCartOpen] = useState(false);
 	const [showAccModal, setShowAccModal] = useState(false);
 	const cartItems = useSelector((state) => state.cart.items);
@@ -17,27 +17,27 @@ export default function Navbar({ isNavOpen, setShowNav }) {
 		<nav className={`justify-content-end navbar ${isNavOpen ? 'navbar--open' : ''}`}>
 			<ul className='navbar__list'>
 				<li className='navbar__item'>
-					<Link to='/' className='navbar__link' onClick={() => setShowNav(false)}>
+					<Link to='/' className='navbar__link'>
 						Home
 					</Link>
 				</li>
 				<li className='navbar__item'>
-					<Link to='/products' className='navbar__link' onClick={() => setShowNav(false)}>
+					<Link to='/products' className='navbar__link'>
 						Shop
 					</Link>
 				</li>
 				<li className='navbar__item'>
-					<Link to='#' className='navbar__link' onClick={() => setShowNav(false)}>
+					<Link to='#' className='navbar__link'>
 						About
 					</Link>
 				</li>
 				<li className='navbar__item'>
-					<Link to='/account' className='navbar__link' onClick={() => setShowNav(false)}>
+					<Link to='/account' className='navbar__link'>
 						Account
 					</Link>
 				</li>
 				<li className='navbar__item'>
-					<Link to='#' className='navbar__link' onClick={() => setShowNav(false)}>
+					<Link to='#' className='navbar__link'>
 						Contact
 					</Link>
 				</li>
