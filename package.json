@@ -1,17 +1,19 @@
 {
   "dependencies": {
-    "concurrently": "^7.1.0"
+    "concurrently": "^7.1.0",
+    "nodemon": "^2.0.19"
   },
-  "engines" : { 
-    "npm" : "8.15.0",
-    "node" : "14.18.2"
+  "engines": {
+    "npm": "8.15.0",
+    "node": "14.18.2"
   },
   "name": "hexa-shop",
   "description": "",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "server": "cd server && npm start",
+    "start": "nodemon --watch server --exec node server/app.js",
+    "server": "nodemon server/app.js",
     "client": "npm start --prefix client",
     "dev": "concurrently -r \"npm run server\" \"npm start\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --force --prefix client && npm run build ---prefix client"
