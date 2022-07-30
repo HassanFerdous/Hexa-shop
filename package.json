@@ -11,6 +11,7 @@
     "start": "node app.js",
     "server": "nodemon app.js",
     "client": "npm start --prefix client",
+    "build-client": "npm run build --prefix client",
     "dev": "concurrently -r \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "cd client && npm install"
   },
