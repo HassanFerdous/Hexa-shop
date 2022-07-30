@@ -18,7 +18,7 @@ const Header = () => {
 						<img src='/assets/images/logo.png' alt='logo' />
 					</Link>
 				</div>
-				<Navbar isNavOpen={navOpen} />
+				<Navbar isNavOpen={navOpen} showNav={setNavOpen} />
 				<div
 					className={`navbar-toggler ${navOpen ? 'navbar-toggler--open' : ''}`}
 					onClick={(e) => handleNavOpen(e)}>
