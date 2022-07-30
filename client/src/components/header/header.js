@@ -14,6 +14,7 @@ const Header = () => {
 
 	useEffect(() => {
 		setNavOpen(false);
+		document.body.classList.remove('nav-open');
 	}, [pathname]);
 
 	return (
