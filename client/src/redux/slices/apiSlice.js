@@ -4,8 +4,8 @@ import { REHYDRATE } from 'redux-persist';
 const hexaApi = createApi({
 	reducerPath: 'hexaApi',
 	baseQuery: fetchBaseQuery({
-		baseUrl: 'http://localhost:5000/api/',
-		// baseUrl: 'https://mern-hexa.herokuapp.com/api/',
+		// baseUrl: 'http://localhost:5000/api/',
+		baseUrl: 'https://mern-hexa.herokuapp.com/api/',
 		prepareHeaders: (headers, { getState }) => {
 			const token = getState().user.token;
 			if (token) {
