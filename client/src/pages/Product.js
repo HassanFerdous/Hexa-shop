@@ -1,5 +1,8 @@
+import { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useGetProductByIdQuery } from '../redux/slices/apiSlice';
+import { addItemToCart } from '../redux/slices/cartSlice';
 import CategoryCollection from './CollectionByCategory';
 
 export default function Product() {
@@ -14,7 +17,14 @@ export default function Product() {
 }
 
 function SingleProduct({ id }) {
+	const [quantity, setQuantity] = useState(1);
+	const dispatch = useDispatch();
 	const { data, isLoading, isSuccess } = useGetProductByIdQuery(id);
+
+	const handleAddToCart = () => {
+		dispatch(addItemToCart({ ...data.product, quantity: quantity }));
+		setQuantity(1);
+	};
 	return (
 		<>
 			{isLoading && <h2>Loading</h2>}
@@ -41,11 +51,25 @@ function SingleProduct({ id }) {
 								<span className='pdp-price'>${data.product.price}</span>
 								<p className='pdp__desc'>{data.product.desc}</p>
 								<div className='pdp__counter counter'>
-									<button className='counter-btn counter-btn--add'>-</button>
-									<input className='counter__input' type='number' defaultValue='1' />
-									<button className='counter-btn counter-btn--minus'>+</button>
+									<button
+										className='counter-btn counter-btn--add'
+										onClick={() => setQuantity((prev) => prev + 1)}>
+										+
+									</button>
+									<input className='counter__input' type='number' value={quantity} onChange={() => {}} />
+									<button
+										className='counter-btn counter-btn--minus'
+										onClick={() => {
+											if (quantity > 1) {
+												setQuantity((prev) => prev - 1);
+											}
+										}}>
+										-
+									</button>
 								</div>
-								<button className='pdp__atc'>Add to bag</button>
+								<button className='pdp__atc' onClick={handleAddToCart}>
+									Add to bag
+								</button>
 								<ul className='pdp__list'>
 									<li>amet consectetur adipisicing elit. Placeat, sunt.</li>
 									<li>Lorem ipsum dolor sit, adipisicing elit. Placeat, sunt.</li>
@@ -58,9 +82,7 @@ function SingleProduct({ id }) {
 					</section>
 					{/* <Explore /> */}
 				</div>
-			) : (
-				'product not found'
-			)}
+			) : null}
 		</>
 	);
 }

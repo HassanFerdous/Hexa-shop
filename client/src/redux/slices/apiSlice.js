@@ -4,7 +4,8 @@ import { REHYDRATE } from 'redux-persist';
 const hexaApi = createApi({
 	reducerPath: 'hexaApi',
 	baseQuery: fetchBaseQuery({
-		baseUrl: 'https://mern-hexa.herokuapp.com/api/',
+		baseUrl: 'http://localhost:5000/api/',
+		// baseUrl: 'https://mern-hexa.herokuapp.com/api/',
 		prepareHeaders: (headers, { getState }) => {
 			const token = getState().user.token;
 			if (token) {
@@ -23,12 +24,18 @@ const hexaApi = createApi({
 
 	endpoints: (builder) => ({
 		getProduct: builder.query({
-			query: () => `products`,
+			query: (query) => `products?${query}`,
 			providesTags: ['Product'],
 		}),
 		getProductById: builder.query({
 			query: (id) => `products/${id}`,
 			providesTags: ['Product'],
+		}),
+		pagination: builder.mutation({
+			query: (query) => ({
+				url: `products?${query}`,
+				invalidatesTags: ['Products'],
+			}),
 		}),
 		addProduct: builder.mutation({
 			query: (body) => ({
@@ -82,6 +89,7 @@ export const {
 	useGetProductByIdQuery,
 	useGetAllUserQuery,
 	useAddProductMutation,
+	usePaginationMutation,
 	useDeleteProductMutation,
 	useUpdateProductMutation,
 	useSignInMutation,

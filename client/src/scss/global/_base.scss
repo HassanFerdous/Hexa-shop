@@ -52,3 +52,8 @@ body {
 .text-center {
     text-align: center;
 }
+
+.lazy-load-image-background {
+    background-size: cover !important;
+    background-position: center center !important;
+}

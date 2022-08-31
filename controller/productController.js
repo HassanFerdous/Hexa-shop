@@ -4,12 +4,22 @@ const path = require('path');
 
 //get-all
 async function getProducts(req, res, next) {
+	const { page, limit } = req.query;
 	try {
-		const products = await Product.find({});
-		res.status(200).json({ products });
+		if (page && limit) {
+			const products = await Product.find()
+				.limit(limit * 1)
+				.skip((page - 1) * limit)
+				.exec();
+			const count = await Product.countDocuments();
+			res.status(200).json({ products, totalPages: Math.ceil(count / limit), currentPage: page });
+		} else {
+			const products = await Product.find();
+			res.status(200).json({ products });
+		}
 	} catch (error) {
 		res.status(500).json({
-			err: err,
+			err: error,
 			message: 'internal-server error',
 		});
 	}

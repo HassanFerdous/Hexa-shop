@@ -1,6 +1,6 @@
 import React from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-
+import placeholder from './inkling_spinner.gif';
 const LazyImg = ({ image }) => (
 	<div>
 		<LazyLoadImage
@@ -8,7 +8,9 @@ const LazyImg = ({ image }) => (
 			height={image.height}
 			width={image.width}
 			alt={image.alt}
-			effect='opacity'
+			effect='blur'
+			delayTime={500}
+			placeholderSrc={placeholder}
 		/>
 		<span>{image.caption}</span>
 	</div>
