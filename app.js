@@ -6,6 +6,7 @@ const userRouter = require('./routes/userRouter');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const { urlencoded } = require('express');
+const path = require('path');
 
 require('dotenv').config();
 
